@@ -9,8 +9,10 @@ import "./resources/styles.css";
 function App() {
   return (
     <div>
-      {/* <SignInSide /> */}
-      <HomeForm />
+      <Header />
+      {/*<SignInSide /> */}
+      {<HomeForm />}
+      <Footer />
     </div>
   );
 }

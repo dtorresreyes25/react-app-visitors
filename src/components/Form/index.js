@@ -1,5 +1,4 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -13,63 +12,7 @@ import Typography from "@material-ui/core/Typography";
 import PersonalForm from "./PersonalForm";
 import VehicleForm from "./VehicleForm";
 import Review from "./Review";
-
-import Logo from "../../resources/logo-ict.png";
-
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {"Copyright © "}
-      <Link color="inherit" href="http://intranet.ict.cu">
-        Internacional Cubana de Tabacos S.A.
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
-
-const useStyles = makeStyles(theme => ({
-  appBar: {
-    position: "relative"
-  },
-  layout: {
-    width: "auto",
-    marginLeft: theme.spacing(2),
-    marginRight: theme.spacing(2),
-    [theme.breakpoints.up(600 + theme.spacing(2) * 2)]: {
-      width: 600,
-      marginLeft: "auto",
-      marginRight: "auto"
-    }
-  },
-  paper: {
-    marginTop: theme.spacing(3),
-    marginBottom: theme.spacing(3),
-    padding: theme.spacing(2),
-    [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
-      marginTop: theme.spacing(6),
-      marginBottom: theme.spacing(6),
-      padding: theme.spacing(3)
-    }
-  },
-  stepper: {
-    padding: theme.spacing(3, 0, 5)
-  },
-  buttons: {
-    display: "flex",
-    justifyContent: "flex-end"
-  },
-  button: {
-    marginTop: theme.spacing(3),
-    marginLeft: theme.spacing(1)
-  },
-  logo: {
-    paddingRight: 9,
-    width: 60,
-    height: 40
-  }
-}));
+import { useStyles } from "../ui/misc";
 
 const steps = ["Datos personales", "Vehículo", "Resumen"];
 
@@ -101,18 +44,11 @@ export default function HomeForm() {
   return (
     <React.Fragment>
       <CssBaseline />
-      <AppBar position="absolute" color="default" className={classes.appBar}>
-        <Toolbar>
-          <img src={Logo} alt="logo" className={classes.logo} />
-          <Typography variant="h6" color="inherit" noWrap>
-            App Visitantes
-          </Typography>
-        </Toolbar>
-      </AppBar>
+
       <main className={classes.layout}>
         <Paper className={classes.paper}>
           <Typography component="h1" variant="h4" align="center">
-            Visitante
+            Nuevo Visitante
           </Typography>
           <Stepper activeStep={activeStep} className={classes.stepper}>
             {steps.map(label => (
@@ -125,12 +61,13 @@ export default function HomeForm() {
             {activeStep === steps.length ? (
               <React.Fragment>
                 <Typography variant="h5" gutterBottom>
-                  Thank you for your order.
+                  Se han guardado los datos correctamente.
                 </Typography>
                 <Typography variant="subtitle1">
-                  Your order number is #2001539. We have emailed your order
-                  confirmation, and will send you an update when your order has
-                  shipped.
+                  {"Si desea registrar un nuevo visitante haga click "}
+                  <Link href="/" className={classes.link}>
+                    Aquí
+                  </Link>
                 </Typography>
               </React.Fragment>
             ) : (
@@ -155,7 +92,6 @@ export default function HomeForm() {
             )}
           </React.Fragment>
         </Paper>
-        <Copyright />
       </main>
     </React.Fragment>
   );

@@ -13,7 +13,13 @@ export default function VehicleForm() {
       </Typography>
       <Grid container spacing={3}>
         <Grid item xs={12} md={6}>
-          <TextField required id="cardName" label="Tipo" fullWidth />
+          <TextField
+            required
+            id="cardName"
+            label="Tipo"
+            fullWidth
+            helperText="Moto o Auto"
+          />
         </Grid>
         <Grid item xs={12} md={6}>
           <TextField required id="cardNumber" label="Marca" fullWidth />
@@ -22,19 +28,7 @@ export default function VehicleForm() {
           <TextField required id="expDate" label="Color" fullWidth />
         </Grid>
         <Grid item xs={12} md={6}>
-          <TextField
-            required
-            id="cvv"
-            label="Chapa"
-            helperText="Last three digits on signature strip"
-            fullWidth
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <FormControlLabel
-            control={<Checkbox color="secondary" name="saveCard" value="yes" />}
-            label="Remember credit card details for next time"
-          />
+          <TextField required id="cvv" label="Chapa" fullWidth />
         </Grid>
       </Grid>
     </React.Fragment>

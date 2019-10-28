@@ -5,6 +5,7 @@ import TextField from "@material-ui/core/TextField";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import { DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
+import esLocale from "date-fns/locale/es/index";
 import DateFnsUtils from "@date-io/date-fns";
 
 export default function PersonalForm() {
@@ -69,10 +70,10 @@ export default function PersonalForm() {
             fullWidth
           />
         </Grid>
-        <Grid item xs={12} sm={6}>
-          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+        <Grid item xs={12} sm={6} style={{ marginTop: 16 }}>
+          <MuiPickersUtilsProvider utils={DateFnsUtils} locale={esLocale}>
             <DateTimePicker
-              label="Fecha y hora"
+              cancelLabel="Cancelar"
               onChange={handleDateChange}
               fullWidth
             />

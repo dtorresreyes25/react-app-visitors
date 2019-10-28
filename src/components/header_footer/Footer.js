@@ -1,15 +1,18 @@
 import React from "react";
+import Link from "@material-ui/core/Link";
+import Typography from "@material-ui/core/Typography";
+import { useStyles } from "../ui/misc";
 
 const Footer = () => {
-  //TODO poner el año automáticamente
   return (
-    <div>
-      <div className="footer">
-        <div className="footer_copyright">
-          <p>Dirección Informática y Comunicaciones 2019</p>
-        </div>
-      </div>
-    </div>
+    <Typography variant="body2" color="textSecondary" align="center">
+      {"Copyright © "}
+      <Link color="inherit" href="http://intranet.ict.cu">
+        Internacional Cubana de Tabacos S.A.
+      </Link>{" "}
+      {new Date().getFullYear()}
+      {"."}
+    </Typography>
   );
 };
 
