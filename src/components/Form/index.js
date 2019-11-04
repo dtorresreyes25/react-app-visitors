@@ -1,7 +1,5 @@
 import React from "react";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
 import Paper from "@material-ui/core/Paper";
 import Stepper from "@material-ui/core/Stepper";
 import Step from "@material-ui/core/Step";
@@ -12,7 +10,7 @@ import Typography from "@material-ui/core/Typography";
 import PersonalForm from "./PersonalForm";
 import VehicleForm from "./VehicleForm";
 import Review from "./Review";
-import { useStyles } from "../ui/misc";
+import {formStyles} from '../ui/styles'
 
 const steps = ["Datos personales", "Vehículo", "Resumen"];
 
@@ -30,7 +28,7 @@ function getStepContent(step) {
 }
 
 export default function HomeForm() {
-  const classes = useStyles();
+  const classes = formStyles();
   const [activeStep, setActiveStep] = React.useState(0);
 
   const handleNext = () => {

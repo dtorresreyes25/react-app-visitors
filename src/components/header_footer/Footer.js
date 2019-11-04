@@ -1,19 +1,13 @@
 import React from "react";
-import Link from "@material-ui/core/Link";
-import Typography from "@material-ui/core/Typography";
-import { useStyles } from "../ui/misc";
+import Copyright from './copyright'
 
-const Footer = () => {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {"Copyright © "}
-      <Link color="inherit" href="http://intranet.ict.cu">
-        Internacional Cubana de Tabacos S.A.
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
+const Footer = props => {
+
+  const showFooter = () =>
+    (
+     <Copyright/>
+    )
+  return props.user ? showFooter() : null;
 };
 
 export default Footer;
