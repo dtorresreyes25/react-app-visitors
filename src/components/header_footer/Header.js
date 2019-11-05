@@ -7,10 +7,17 @@ import {headerStyles} from '../ui/styles'
 import Grid from "@material-ui/core/Grid";
 import Logo from "../../resources/logo-ict.png";
 import Link from "@material-ui/core/Link";
+import Button from '@material-ui/core/Button'
 
+const Header = (props) => {
 
-const Header = props => {
   const classes = headerStyles();
+  
+  const logOut=()=>{
+    console.log('logout'.props)
+    props.setAuthTokens()
+  }
+
   const showHeader = () =>(
       <AppBar color="inherit" position="sticky" elevation={0}>
         <Toolbar>
@@ -19,24 +26,32 @@ const Header = props => {
               <img src={Logo} alt="logo" className={classes.logo} />
             </Grid>
             <Grid item>
-              <Typography color="inherit" variant="h5" component="h1">
+              <Typography color="inherit" variant="h4" component="h1">
                 App Visitantes
               </Typography>
             </Grid>
             <Grid item xs />
             <Grid item>
-              <Link className={classes.link} href="#" variant="body2">
-                Salir
-              </Link>
+
             </Grid>
             <Grid item>
               <UserAvatar />
+              {
+                 console.log(props.authTokens)
+              }
+               {
+                 
+                  props.authTokens?`${props.authTokens.user} | `:null
+               }
+              <Button onClick={logOut}>
+                Salir
+              </Button>
             </Grid>
           </Grid>
         </Toolbar>
       </AppBar>
     )
-  return <div>{props.user ? showHeader() : null}</div>;
+  return <div>{props.authTokens ? showHeader() : null}</div>;
 };
 
 export default Header;

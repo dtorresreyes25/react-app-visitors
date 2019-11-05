@@ -1,13 +1,14 @@
 import React from "react";
 import Copyright from './copyright'
 
-const Footer = props => {
+const Footer = ({user}) => {
+
 
   const showFooter = () =>
     (
      <Copyright/>
     )
-  return props.user ? showFooter() : null;
+ return <div>{user ? showFooter() : null}</div>;
 };
 
 export default Footer;

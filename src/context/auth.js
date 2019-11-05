@@ -7,15 +7,14 @@ export function useAuth() {
 }
 
 export function AuthProvider(props){
-    const [authTokens, setAuthTokens] = useState();
-    const [userAuthData, setUserAuthData] = useState();
-    
+    const [authTokens, setAuthTokens] = useState(); 
     const setTokens = (data) => {
       localStorage.setItem("tokens", JSON.stringify(data));
+      
       setAuthTokens(data);
     }
     return(
-      <AuthContext.Provider value={{ authTokens, setAuthTokens: setTokens ,userAuthData, setUserAuthData}}>
+      <AuthContext.Provider value={{ authTokens, setAuthTokens:setTokens}}>
         {props.children}
       </AuthContext.Provider>  
     )

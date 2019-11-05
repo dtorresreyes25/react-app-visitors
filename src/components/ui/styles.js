@@ -6,6 +6,11 @@ export const signInStyles = makeStyles(theme => ({
     root: {
       height: "100vh"
     },
+    logo: {
+      paddingRight: 0,
+      width: 50,
+      height: 40
+    },
     image: {
       backgroundImage: `url(${PortadaICT})`,
       backgroundRepeat: "no-repeat",

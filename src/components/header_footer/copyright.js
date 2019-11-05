@@ -4,15 +4,17 @@ import Typography from "@material-ui/core/Typography";
 
 const Copyright = () => {
     return (
-      <Typography variant="body2" color="textSecondary" align="center">
-        {"Copyright © "}
-        <Link color="inherit" href="http://intranet.ict.cu">
-          Internacional Cubana de Tabacos S.A.
-        </Link>{" "}
-        {new Date().getFullYear()}
-        {"."}
-      </Typography>
+      <div style={{marginBottom: '15px'}}>
+        <Typography variant="body2" color="textSecondary" align="center">
+          {"Copyright © "}
+          <Link color="inherit" href="http://intranet.ict.cu">
+            Internacional Cubana de Tabacos S.A.
+          </Link>{" "}
+          {new Date().getFullYear()}
+          {"."}
+        </Typography>
+      </div>
     );
   };
 
-  export default Copyright
+  export default Copyright 
