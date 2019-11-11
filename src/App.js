@@ -5,6 +5,8 @@ import { Chart } from 'react-chartjs-2';
 import { ThemeProvider } from '@material-ui/styles';
 import validate from 'validate.js';
 
+import {AuthProvider} from './context/auth'
+
 import { chartjs } from './helpers';
 import theme from './theme';
 import 'react-perfect-scrollbar/dist/css/styles.css';
@@ -27,9 +29,11 @@ export default class App extends Component {
   render() {
     return (
       <ThemeProvider theme={theme}>
+      <AuthProvider>
         <Router history={browserHistory}>
           <Routes />
         </Router>
+      </AuthProvider>  
       </ThemeProvider>
     );
   }

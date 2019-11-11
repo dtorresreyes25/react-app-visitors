@@ -1,7 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Link as RouterLink, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import validate from 'validate.js';
+
+import axios from 'axios';
+import { useAuth} from "../../context/auth";
+import Notify from "../../components/notify";
 
 import { makeStyles } from '@material-ui/styles';
 import {
@@ -14,11 +18,11 @@ import {
 } from '@material-ui/core';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
-import { Facebook as FacebookIcon, Google as GoogleIcon } from 'icons';
+
 
 const schema = {
   email: {
-    presence: { allowEmpty: false, message: 'is required' },
+    presence: { allowEmpty: false, message: 'is requiredfff' },
     email: true,
     length: {
       maximum: 64
@@ -126,7 +130,12 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
+
+
 const SignIn = props => {
+
+  const auth = useAuth();
+
   const { history } = props;
 
   const classes = useStyles();
@@ -137,6 +146,9 @@ const SignIn = props => {
     touched: {},
     errors: {}
   });
+
+  const [isError, setIsError] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const errors = validate(formState.values, schema);
@@ -171,13 +183,50 @@ const SignIn = props => {
     }));
   };
 
+   const login = () => {
+  
+    setIsLoading(true);
+
+    const url = "https://api.ict.cu/visitors/api/v1/login";
+    axios({
+      method: "get",
+      url,
+      auth: {
+        username: formState.values.email,
+        password: formState.values.password
+      }
+    })
+      .then(result => {
+
+        if (result.status === 200) {
+         
+          auth.setSessionCookie(result.data);
+          
+          history.push("/");
+          setIsLoading(false);
+        } else {
+          setIsError({
+            variant: "error",
+            message: "El usuario o la contraseña no son correctas"
+          });
+        }
+      })
+      .catch(e => {
+        console.log(e)
+        setIsError({ variant: "error", message: "El usuario o la contraseña no son correctas" });
+        setIsLoading(false);
+      });
+  }
+
   const handleSignIn = event => {
+    
     event.preventDefault();
-    history.push('/');
+    
+    login();
+    //history.push('/');
   };
 
-  const hasError = field =>
-    formState.touched[field] && formState.errors[field] ? true : false;
+  const hasError = field => formState.touched[field] && formState.errors[field] ? true : false;
 
   return (
     <div className={classes.root}>
@@ -218,7 +267,6 @@ const SignIn = props => {
                   Acceso
                 </Typography>
                
-            
                 <Typography
                   align="center"
                   className={classes.sugestion}
@@ -234,7 +282,7 @@ const SignIn = props => {
                   helperText={
                     hasError('email') ? formState.errors.email[0] : null
                   }
-                  label="Email address"
+                  label="Email"
                   name="email"
                   onChange={handleChange}
                   type="text"
@@ -248,7 +296,7 @@ const SignIn = props => {
                   helperText={
                     hasError('password') ? formState.errors.password[0] : null
                   }
-                  label="Password"
+                  label="Contraseña"
                   name="password"
                   onChange={handleChange}
                   type="password"
@@ -266,27 +314,24 @@ const SignIn = props => {
                 >
                   Entrar 
                 </Button>
-                <Typography
-                  color="textSecondary"
-                  variant="body1"
-                >
-                  Don't have an account?{' '}
-                  <Link
-                    component={RouterLink}
-                    to="/sign-up"
-                    variant="h6"
-                  >
-                    Sign up
-                  </Link>
-                </Typography>
+                
               </form>
             </div>
           </div>
         </Grid>
       </Grid>
+         {isError.variant ? (
+        <Notify
+          display={isError.variant ? true : false}
+          onClose={value => (value ? setIsError({}) : null)}
+          variant={isError.variant}
+          message={isError.message}
+        />
+      ) : null}
     </div>
   );
-};
+}
+
 
 SignIn.propTypes = {
   history: PropTypes.object
