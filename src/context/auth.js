@@ -16,6 +16,7 @@ function useAuthProvider(){
         return false;
       } else {
         return JSON.parse(sessionCookie);
+
       }
     };
 
