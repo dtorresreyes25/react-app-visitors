@@ -1,0 +1,387 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"Error",
+				"ErrorIcon\t{} "
+			],
+			[
+				"lo",
+				"login_api"
+			],
+			[
+				"vis",
+				"visitors_api"
+			],
+			[
+				"consultar",
+				"consultar_curso_por_id"
+			],
+			[
+				"cur",
+				"curso_id"
+			],
+			[
+				"find",
+				"find_one"
+			],
+			[
+				"insert",
+				"inserted_id"
+			],
+			[
+				"_",
+				"_id"
+			],
+			[
+				"carrera",
+				"carrera_id"
+			],
+			[
+				"json",
+				"jsonify"
+			],
+			[
+				"H",
+				"H1\tTag"
+			],
+			[
+				"text",
+				"textInput"
+			],
+			[
+				"Text",
+				"TextInput"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"Package Control: ",
+				"Package Control: Enable Package"
+			],
+			[
+				"Package Control: React",
+				"Package Control: Create Package File"
+			]
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 356.0,
+		"history":
+		[
+			"npm start",
+			"import urllib.request,os,hashlib; h = '6f4c264a24d933ce70df5dedcf1dcaee' + 'ebe013ee18cced0ef93d5f746d80ef60'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by) ",
+			"React Native Autocomplete"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/E/DESARROLLO/react-app-visitors",
+		"/E/DESARROLLO/react-app-visitors/src",
+		"/E/DESARROLLO/react-app-visitors/src/components",
+		"/E/DESARROLLO/react-app-visitors/src/components/authRoutes",
+		"/E/DESARROLLO/react-app-visitors/src/components/header_footer",
+		"/E/DESARROLLO/react-app-visitors/src/components/sign_in",
+		"/E/DESARROLLO/react-app-visitors/src/components/ui",
+		"/E/DESARROLLO/react-app-visitors/src/components/ui/notify",
+		"/E/DESARROLLO/react-app-visitors/src/context",
+		"/E/DESARROLLO/react-app-visitors/src/HOC"
+	],
+	"file_history":
+	[
+		"/E/DESARROLLO/react-app-visitors/src/context/auth.js",
+		"/E/DESARROLLO/react-app-visitors/src/components/sign_in/signInForm.js",
+		"/E/DESARROLLO/react-app-visitors/src/HOC/layoutTemplate.js",
+		"/E/DESARROLLO/react-app-visitors/src/components/header_footer/Header.js",
+		"/E/DESARROLLO/react-app-visitors/package.json",
+		"/E/DESARROLLO/react-app-visitors/src/components/sign_in/index.js",
+		"/E/DESARROLLO/react-app-visitors/src/components/ui/notify/notifyContent.js",
+		"/E/DESARROLLO/react-app-visitors/src/components/ui/notify/index.js",
+		"/E/DESARROLLO/react-app-visitors/src/components/ui/styles.js",
+		"/E/DESARROLLO/react-app-visitors/src/routes.js",
+		"/E/DESARROLLO/react-app-visitors/src/components/authRoutes/public.js",
+		"/E/DESARROLLO/react-app-visitors/src/components/authRoutes/private.js",
+		"/C/Users/dtorres.ict/AppData/Roaming/Sublime Text 3/Packages/User/Tern.sublime-settings",
+		"/E/DESARROLLO/react-app-visitors/.tern-project",
+		"/C/Users/dtorres.ict/AppData/Local/Temp/scp39178/home/sysadmin/visitors_api/my_flask_app.py",
+		"/C/Users/dtorres.ict/AppData/Local/Temp/scp09975/home/sysadmin/visitors_api/dbModel.py",
+		"/C/Users/dtorres.ict/Desktop/MongoDbCRUD.py",
+		"/E/DESARROLLO/react-app-visitors/node_modules/react-check-auth/build/index.js",
+		"/E/DESARROLLO/react-app-visitors/.git/refs/remotes/origin/master",
+		"/E/DESARROLLO/react-app-visitors/src/components/Form/index.js",
+		"/E/DESARROLLO/react-app-visitors/src/components/signInSide/index.js",
+		"/C/Users/dtorres.ict/AppData/Local/Temp/scp59839/home/sysadmin/visitors_api/my_flask_app.py",
+		"/C/Users/dtorres.ict/AppData/Local/Temp/scp52343/home/sysadmin/visitors_api/my_flask_app.py",
+		"/C/Users/dtorres.ict/m-city/src/Hoc/Layout.js",
+		"/C/Users/dtorres.ict/m-city/src/Routes.js",
+		"/C/Users/dtorres.ict/AppData/Roaming/Sublime Text 3/Packages/Package Control/Package Control.sublime-settings",
+		"/C/Users/dtorres.ict/AppData/Local/Temp/scp56356/home/sysadmin/visitors_api/login.py",
+		"/C/Users/dtorres.ict/AppData/Local/Temp/scp49879/home/sysadmin/visitors_api/visitors.py",
+		"/C/Users/dtorres.ict/AppData/Local/Temp/scp49031/home/sysadmin/visitors_api/my_flask_app.py",
+		"/C/Users/dtorres.ict/AppData/Local/Temp/scp51073/home/sysadmin/visitors_api/my_flask_app.py",
+		"/C/Users/dtorres.ict/AppData/Local/Temp/scp06449/home/sysadmin/comando",
+		"/C/Users/dtorres.ict/AppData/Local/Temp/scp06867/home/sysadmin/cron.txt",
+		"/C/Users/dtorres.ict/AppData/Local/Temp/scp05200/home/sysadmin/visitors_api/db.py",
+		"/C/Users/dtorres.ict/AppData/Local/Temp/scp32001/home/sysadmin/visitors_api/my_flask_app.py",
+		"/C/Users/dtorres.ict/AppData/Local/Temp/scp34049/home/sysadmin/visitors_api/login.py",
+		"/C/Users/dtorres.ict/AppData/Local/Temp/scp32321/home/sysadmin/visitors_api/visitors.py",
+		"/C/Users/dtorres.ict/AppData/Local/Temp/scp21866/home/sysadmin/visitors_api/my_flask_app.wsgi",
+		"/C/Users/dtorres.ict/AppData/Local/Temp/scp04459/home/sysadmin/visitors_api/my_flask_app.py",
+		"/C/Users/dtorres.ict/AppData/Local/Temp/scp00869/home/sysadmin/visitors_api/my_flask_app.wsgi",
+		"/C/Users/dtorres.ict/AppData/Local/Temp/scp50722/home/sysadmin/visitors_api/login.py",
+		"/C/Users/dtorres.ict/AppData/Local/Temp/scp08564/home/sysadmin/visitors_api/my_flask_app.py",
+		"/C/Users/dtorres.ict/AppData/Local/Temp/scp09467/home/sysadmin/visitors_api/visitors/login.py",
+		"/C/Users/dtorres.ict/AppData/Local/Temp/scp46670/home/sysadmin/visitors_api/visitors/db.py",
+		"/C/Users/dtorres.ict/AppData/Local/Temp/scp53499/home/sysadmin/visitors_api/visitors.py",
+		"/C/Users/dtorres.ict/AppData/Local/Temp/scp44965/home/sysadmin/visitors_api/visitors/visitors.py",
+		"/E/DESARROLLO/flask-api-visitors/visitors-api/app.py",
+		"/C/Users/dtorres.ict/AppData/Local/Temp/scp58442/home/sysadmin/visitors_api/my_flask_app.py",
+		"/E/DESARROLLO/flask-api-visitors/visitors-api/visitors/visitors.py",
+		"/C/Users/dtorres.ict/AppData/Local/Temp/scp10875/home/sysadmin/visitors_api/my_flask_app.wsgi",
+		"/E/DESARROLLO/flask-api-visitors/visitors-api/visitors/login.py",
+		"/E/DESARROLLO/flask-api-visitors/README.md",
+		"/E/DESARROLLO/flask-api-visitors/visitors-api/visitors/config.py",
+		"/E/DESARROLLO/flask-api-visitors/ssl/__init__.py",
+		"/E/DESARROLLO/flask-api-visitors/visitors-api/__init__.py.bk",
+		"/E/DESARROLLO/flask-api-visitors/visitors-api/db.py",
+		"/E/DESARROLLO/flask-api-visitors/visitors-api/config.py",
+		"/E/DESARROLLO/flask-api-visitors/visitors-api/__init__ - copia.py",
+		"/E/DESARROLLO/flask-api-visitors/visitors-api/visitors/db.py",
+		"/E/DESARROLLO/flask-api-visitors/visitors-api/__init__.py",
+		"/E/DESARROLLO/flask-api-visitors/visitors-api/visitors.py",
+		"/E/DESARROLLO/flask-api-visitors/visitors-api/login.py",
+		"/E/DESARROLLO/flask-api-visitors/ssl/resources/server.cnf",
+		"/E/DESARROLLO/flask-api-visitors/ssl/resources/root.cnf",
+		"/E/DESARROLLO/flask-api-visitors/ssl/resources/server.key",
+		"/E/DESARROLLO/flask-api-visitors/root.cnf",
+		"/E/DESARROLLO/flask-api-visitors/server.cnf",
+		"/C/Windows/System32/drivers/etc/hosts",
+		"/E/DESARROLLO/flask-api-visitors/ssl.py",
+		"/E/DESARROLLO/flask-api-visitors/caddy/caddy",
+		"/E/DESARROLLO/flask-api-visitors/caddy/README.txt",
+		"/E/DESARROLLO/flask-api-visitors/caddy/init/README.md",
+		"/E/DESARROLLO/flask-api-visitors/api_example/api - copia.py",
+		"/E/DESARROLLO/flask-api-visitors/venv/Scripts/activate_this.py",
+		"/E/DESARROLLO/flask-api-visitors/venv/Scripts/activate.ps1",
+		"/E/DESARROLLO/flask-api-visitors/venv/Scripts/activate.bat",
+		"/E/DESARROLLO/flask-api-visitors/venv/Scripts/activate",
+		"/E/DESARROLLO/flask-api-visitors/api_example/api.py",
+		"/E/DESARROLLO/flask-api-visitors/api_example/ldap.py",
+		"/E/DESARROLLO/flask-api-visitors/Garnet/README.md",
+		"/C/Users/dtorres.ict/AppData/Local/Temp/Rar$DIa24456.20277/api.py",
+		"/C/Users/dtorres.ict/AppData/Local/Temp/Rar$DRa24456.22069/api_example/api.py",
+		"/C/Users/dtorres.ict/AppData/Local/Temp/Rar$DIa24456.13263/api.py",
+		"/E/DESARROLLO/flask-api-visitors/Garnet/config.py",
+		"/E/DESARROLLO/react-app-visitors/README.md",
+		"/E/youtube video/VIDEOS-REACT-NATIVE/ReactJs/Ariana Grande Web/007 Read this first.html",
+		"/E/DESARROLLO/platzi-mongo/platzi-api/db.py",
+		"/E/DESARROLLO/platzi-mongo/platzi-api/carreras.py",
+		"/E/DESARROLLO/platzi-mongo/platzi-api/cursos.py",
+		"/E/DESARROLLO/flask-api-visitors/visitors-api/cursos.py",
+		"/E/DESARROLLO/flask-api-visitors/visitors-api/carreras.py",
+		"/C/Users/dtorres.ict/platzi-flask/main.py",
+		"/C/Users/dtorres.ict/platzi-flask/m.py",
+		"/C/Users/dtorres.ict/platzi-flask/app.py",
+		"/E/platzi-mongo/platzi-api/carreras.py",
+		"/E/platzi-mongo/platzi-api/db.py",
+		"/E/platzi-mongo/platzi-api/cursos.py",
+		"/E/mongodb/stocks.json",
+		"/C/Users/dtorres.ict/platzi-flask/MongoDbCRUD.py",
+		"/E/platzi-mongo/README.md",
+		"/E/mongodb/mcity.json",
+		"/E/VIDEO/9.1 m-city-export.json.json",
+		"/E/VIDEO/matches.json",
+		"/E/platzi-mongo/pvenv/Scripts/activate_this.py",
+		"/E/platzi-mongo/pvenv/Scripts/activate",
+		"/E/platzi-mongo/pvenv/Scripts/activate.bat",
+		"/E/VIDEO/exppppp.json",
+		"/C/Users/dtorres.ict/platzi-flask/templates/hello.htm",
+		"/C/Users/dtorres.ict/firestoneImport/config.js",
+		"/C/Users/dtorres.ict/firestoneImport/serviceAccount.json",
+		"/C/Users/dtorres.ict/firestoneImport/import.js",
+		"/C/Users/dtorres.ict/Downloads/mcity-85f5b-firebase-adminsdk-zkd5m-2c02f8ab5d.json",
+		"/C/Users/dtorres.ict/firestone-import-export/firestore-import-export/README.md",
+		"/C/Users/dtorres.ict/Downloads/mcity-85f5b-9dc1e49fdd72.json",
+		"/E/VIDEO/VIDEO EDICION CARLOS GUATE/Crack/painter.nfo",
+		"/C/Users/dtorres.ict/firestone-import-export/firestore-import-export/serviceAccountKey.json",
+		"/C/Users/dtorres.ict/Downloads/mcity-85f5b-firebase-adminsdk-zkd5m-f78023c0b9.json",
+		"/C/Users/dtorres.ict/firestone-import-export/firestore-import-export/export.js",
+		"/C/Users/dtorres.ict/firestoneImport/package.json",
+		"/C/Users/dtorres.ict/firestone-import-export/firestore-import-export/package.json",
+		"/C/Users/dtorres.ict/m-city/package.json",
+		"/E/VIDEO/VIDEO EDICION CARLOS GUATE/Crack/MAYANPROPHECY.nfo",
+		"/C/Users/dtorres.ict/myFirstReactProject/index.htm",
+		"/C/Users/dtorres.ict/rn-course/App.js",
+		"/C/Users/dtorres.ict/.rndebuggerrc",
+		"/C/Users/dtorres.ict/AppData/Roaming/Sublime Text 3/Packages/sublime-react-ide/ReactIDE.sublime-settings",
+		"/C/Program Files/OpenVPN/config/SWEDEN-TCP-443.ovpn",
+		"/C/Program Files/OpenVPN/config/USA_freeopenvpn_tcp.ovpn",
+		"/C/Users/dtorres.ict/.AndroidStudio3.1/system/log/idea.log"
+	],
+	"find":
+	{
+		"height": 29.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"consult",
+			"consult_visitors",
+			"bp",
+			"login_api",
+			"config",
+			"()\n",
+			"app",
+			"curso_id",
+			"curso",
+			": {",
+			"raw_input",
+			"proxy",
+			"plan"
+		],
+		"highlight": false,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"app",
+			"login_api",
+			"visitor_id",
+			"visitor",
+			",",
+			"input"
+		],
+		"reverse": true,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": false
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 29.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "react-app-visitors.sublime-project",
+	"replace":
+	{
+		"height": 54.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 220.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
