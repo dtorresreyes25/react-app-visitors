@@ -22,14 +22,16 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 const schema = {
   email: {
-    presence: { allowEmpty: false, message: 'is requiredfff' },
-    email: true,
+    presence: { allowEmpty: false, message: 'es obligatorio rellenarlo' },
+    email: {
+      message: "no parece ser una dirección válida"
+    },
     length: {
       maximum: 64
     }
   },
   password: {
-    presence: { allowEmpty: false, message: 'is required' },
+    presence: { allowEmpty: false, message: 'es obligatorio rellenarlo' },
     length: {
       maximum: 128
     }
@@ -120,7 +122,8 @@ const useStyles = makeStyles(theme => ({
     marginRight: theme.spacing(1)
   },
   sugestion: {
-    marginTop: theme.spacing(2)
+    marginTop: theme.spacing(2),
+    textAlign: 'left'
   },
   textField: {
     marginTop: theme.spacing(2)
@@ -148,6 +151,7 @@ const SignIn = props => {
   });
 
   const [isError, setIsError] = useState({});
+  const [isIdle, setIsIdle] = useState(auth.isIdle)
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -160,9 +164,9 @@ const SignIn = props => {
     }));
   }, [formState.values]);
 
-  const handleBack = () => {
-    history.goBack();
-  };
+  // const handleBack = () => {
+  //   history.goBack();
+  // };
 
   const handleChange = event => {
     event.persist();
@@ -202,8 +206,11 @@ const SignIn = props => {
          
           auth.setSessionCookie(result.data);
           
+         
           history.push("/");
-          setIsLoading(false);
+          
+          setIsLoading(false);  
+          
         } else {
           setIsError({
             variant: "error",
@@ -212,7 +219,6 @@ const SignIn = props => {
         }
       })
       .catch(e => {
-        console.log(e)
         setIsError({ variant: "error", message: "El usuario o la contraseña no son correctas" });
         setIsLoading(false);
       });
@@ -224,6 +230,8 @@ const SignIn = props => {
     
     login();
     //history.push('/');
+    //setIsLoading(true)
+    //setTimeout(()=>setIsLoading(false),6000);
   };
 
   const hasError = field => formState.touched[field] && formState.errors[field] ? true : false;
@@ -251,9 +259,9 @@ const SignIn = props => {
         >
           <div className={classes.content}>
             <div className={classes.contentHeader}>
-              <IconButton onClick={handleBack}>
+              {/*<IconButton onClick={handleBack}>
                 <ArrowBackIcon />
-              </IconButton>
+              </IconButton>*/}
             </div>
             <div className={classes.contentBody}>
               <form
@@ -306,13 +314,13 @@ const SignIn = props => {
                 <Button
                   className={classes.signInButton}
                   color="primary"
-                  disabled={!formState.isValid}
+                  disabled={ isLoading ? true : !formState.isValid ? true : false }
                   fullWidth
                   size="large"
                   type="submit"
                   variant="contained"
                 >
-                  Entrar 
+                {isLoading? "...comprobando": "Entrar"}
                 </Button>
                 
               </form>
@@ -321,13 +329,22 @@ const SignIn = props => {
         </Grid>
       </Grid>
          {isError.variant ? (
-        <Notify
-          display={isError.variant ? true : false}
-          onClose={value => (value ? setIsError({}) : null)}
-          variant={isError.variant}
-          message={isError.message}
-        />
-      ) : null}
+            <Notify
+              display={isError.variant ? true : false}
+              onClose={value => (value ? setIsError({}) : null)}
+              variant={isError.variant}
+              message={isError.message}
+              autoHide={true}
+            />
+             ) : null}
+         {isIdle ? (
+            <Notify
+              display={isIdle}
+              onClose={(e)=>setIsIdle(false)}
+              variant={'warning'}
+              message={'Se desconectó la sesión por inactividad'}
+            />
+             ) : null}
     </div>
   );
 }

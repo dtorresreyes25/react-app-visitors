@@ -18,10 +18,10 @@ export default function Notify(props) {
     <div>
       <Snackbar
         anchorOrigin={{
-          vertical: "top",
+          vertical: "bottom",
           horizontal: "center"
         }}
-        autoHideDuration={6000}
+        {/*autoHideDuration={null}*/}
         open={display}
         onClose={handleClose}
       >

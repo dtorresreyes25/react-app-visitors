@@ -6,6 +6,9 @@ import {useAuth} from '../../context/auth'
 const RouteWithLayout = props => {
   const auth = useAuth()
   const { layout: Layout, component: Component, privateRoute , publicRoute, ...rest } = props;
+ console.log('RouteWithLayout component')
+
+
 
   return (
     <Route

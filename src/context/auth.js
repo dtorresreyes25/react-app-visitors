@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, useMemo } from "react";
 import * as Cookies from "js-cookie";
+import createActivityDetector from 'activity-detector'
 
 export const AuthContext = createContext();
 
@@ -21,6 +22,7 @@ function useAuthProvider(){
     };
 
     const [authSession, setAuthSession]=useState(getSessionCookie());
+    const [isIdle, setIsIdle] = useState(false)
 
     const setSessionCookie = session => {
       
@@ -36,10 +38,31 @@ function useAuthProvider(){
         setAuthSession(getSessionCookie())
     }
 
+    const isAuthenticated = () => {
+        setAuthSession(getSessionCookie())
+        return true
+    }
+
+  
+  useEffect(() => {
+    const activityDetector = createActivityDetector({timeToIdle: 9000})
+    activityDetector.on('idle', () => {
+      setIsIdle(true)
+      signOut()
+    })
+    //activityDetector.on('idle', () => signOut())
+    // activityDetector.on('active', () => setIsIdle(false))
+    return () => activityDetector.stop()
+  }, [])
+
+
       
-    useEffect(()=>(
-        setAuthSession(session=>getSessionCookie())
-      ),[authSession.token])
+    // useEffect(()=>(
+    //     setInterval(()=>{
+    //        console.log('time lapsed')
+    //     },60000)
+    //    // setAuthSession(session=>getSessionCookie())
+    //   ),[])
 
      // const session = getSessionCookie();
 
@@ -47,17 +70,19 @@ function useAuthProvider(){
      //     getSessionCookie()
      // ), [session])
 
+     console.log('auth component')
+
 
     return {
           authSession,
           setSessionCookie,
           signOut,
+          isIdle
     }
 }
 
 export function AuthProvider(props) {
   const auth = useAuthProvider();
-  console.log('hi,from AuthProvider')
       return (
         <AuthContext.Provider value={auth}>
           {props.children}

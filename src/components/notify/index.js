@@ -4,7 +4,7 @@ import MySnackbarContentWrapper from './notifyContent'
 
 
 export default function Notify(props) {
-  const { message, variant, display, onClose, ...other } = props;
+  const { message, variant, display, onClose, autoHide, ...other } = props;
  
 
   const handleClose = (event, reason) => {
@@ -18,10 +18,10 @@ export default function Notify(props) {
     <div>
       <Snackbar
         anchorOrigin={{
-          vertical: "top",
-          horizontal: "center"
+          vertical: "bottom",
+          horizontal: "right"
         }}
-        autoHideDuration={6000}
+        autoHideDuration={ !autoHide ? null: 6000}
         open={display}
         onClose={handleClose}
       >
