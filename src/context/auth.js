@@ -45,33 +45,21 @@ function useAuthProvider(){
 
   
   useEffect(() => {
-    const activityDetector = createActivityDetector({timeToIdle: 9000})
+    console.log('EFFECT')
+    const activityDetector = createActivityDetector({timeToIdle: 600e3, autoInit: false })
+    activityDetector.init();
     activityDetector.on('idle', () => {
       setIsIdle(true)
-      signOut()
+      //signOut()
+      console.log('IDLE')
     })
     //activityDetector.on('idle', () => signOut())
-    // activityDetector.on('active', () => setIsIdle(false))
+    activityDetector.on('active', () => {
+      setIsIdle(false)
+      console.log('ACTIVE')
+    })
     return () => activityDetector.stop()
   }, [])
-
-
-      
-    // useEffect(()=>(
-    //     setInterval(()=>{
-    //        console.log('time lapsed')
-    //     },60000)
-    //    // setAuthSession(session=>getSessionCookie())
-    //   ),[])
-
-     // const session = getSessionCookie();
-
-     // const authSession = useMemo(() => (
-     //     getSessionCookie()
-     // ), [session])
-
-     console.log('auth component')
-
 
     return {
           authSession,

@@ -203,10 +203,11 @@ const SignIn = props => {
       .then(result => {
 
         if (result.status === 200) {
-         
-          auth.setSessionCookie(result.data);
+
           
          
+          auth.setSessionCookie(result.data);
+                 
           history.push("/");
           
           setIsLoading(false);  

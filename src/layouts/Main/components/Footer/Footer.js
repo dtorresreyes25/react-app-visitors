@@ -24,16 +24,15 @@ const Footer = props => {
         &copy;{' '}
         <Link
           component="a"
-          href="https://devias.io/"
+          href="https://intranet.ictsa.cu/"
           target="_blank"
         >
-          Devias IO
+          Internacional Cubana de Tabacos S.A.
         </Link>
-        . 2019
+         { new Date().getFullYear()}
       </Typography>
       <Typography variant="caption">
-        Created with love for the environment. By designers and developers who
-        love to work together in offices!
+        Creado  por dtorres@ictsa.cu
       </Typography>
     </div>
   );
