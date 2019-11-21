@@ -4,8 +4,8 @@ import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
 import { Avatar, Typography } from '@material-ui/core';
-import {useAuth} from '../../../../../../context/auth'
 import { deepPurple } from '@material-ui/core/colors';
+
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -29,13 +29,14 @@ const useStyles = makeStyles(theme => ({
 
 
 const Profile = props => {
-  const auth = useAuth();
-  const {email,name,public_id} = auth.authSession.user
 
-  const { className, ...rest } = props;
 
+
+  const { className, userSession, ...rest } = props;
+
+  const {email,name,public_id} = userSession.authSession.user
   const classes = useStyles();
- console.log(auth)
+
   const user = {
     name: name,
     //avatar: '/images/avatars/avatar_11.png',

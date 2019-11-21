@@ -14,7 +14,6 @@ import {
   Button,
   LinearProgress
 } from '@material-ui/core';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import PhotoCamera from '@material-ui/icons/PhotoCamera';
 import axios from 'axios';
 

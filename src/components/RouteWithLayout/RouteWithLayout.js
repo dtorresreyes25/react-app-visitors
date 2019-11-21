@@ -3,22 +3,22 @@ import { Route, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {useAuth} from '../../context/auth'
 
+
+
 const RouteWithLayout = props => {
   const auth = useAuth()
   const { layout: Layout, component: Component, privateRoute , publicRoute, ...rest } = props;
- console.log('RouteWithLayout component')
-
-
 
   return (
+    <>
     <Route
       {...rest}
+
       render={matchProps =>
-          
-          
+           
       privateRoute ? auth.authSession ? 
-                              (<Layout>
-                                <Component {...matchProps} />
+                              (<Layout userSession={auth} >
+                                <Component {...matchProps}  userSession={auth} />
                               </Layout>)
                              : <Redirect to="/sign-in" />
           : publicRoute
@@ -33,7 +33,7 @@ const RouteWithLayout = props => {
                                        ) 
                                       : (
                                           <Layout>
-                                              <Component {...matchProps} />
+                                              <Component {...matchProps} userSession={auth}/>
                                           </Layout>
                                         )
                    : (
@@ -43,6 +43,8 @@ const RouteWithLayout = props => {
           
       }
     />
+        
+        </>
   );
 };
 
