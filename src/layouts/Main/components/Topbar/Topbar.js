@@ -7,7 +7,6 @@ import { AppBar, Toolbar, Badge, Hidden, IconButton, Typography } from '@materia
 import MenuIcon from '@material-ui/icons/Menu';
 import NotificationsIcon from '@material-ui/icons/NotificationsOutlined';
 import InputIcon from '@material-ui/icons/Input';
-import {useAuth} from '../../../../context/auth'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -35,9 +34,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Topbar = props => {
-  const { className, onSidebarOpen, ...rest } = props;
-  
-  const auth= useAuth()
+  const { className, onSidebarOpen, userSession , ...rest } = props;
 
   const classes = useStyles();
 
@@ -78,7 +75,7 @@ const Topbar = props => {
           <IconButton
             className={classes.signOutButton}
             color="inherit"
-            onClick={()=>auth.signOut()}
+            onClick={()=>userSession.signOut()}
           >
             <InputIcon />
           </IconButton>

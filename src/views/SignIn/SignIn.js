@@ -5,7 +5,10 @@ import validate from 'validate.js';
 
 import axios from 'axios';
 import { useAuth} from "../../context/auth";
-import Notify from "../../components/notify";
+
+
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import { makeStyles } from '@material-ui/styles';
 import {
@@ -150,7 +153,6 @@ const SignIn = props => {
     errors: {}
   });
 
-  const [isError, setIsError] = useState({});
   const [isIdle, setIsIdle] = useState(auth.isIdle)
   const [isLoading, setIsLoading] = useState(false);
 
@@ -162,12 +164,13 @@ const SignIn = props => {
       isValid: errors ? false : true,
       errors: errors || {}
     }));
-  }, [formState.values]);
+  }, [formState.values,isIdle]);
 
   // const handleBack = () => {
   //   history.goBack();
   // };
 
+ 
   const handleChange = event => {
     event.persist();
 
@@ -213,15 +216,13 @@ const SignIn = props => {
           setIsLoading(false);  
           
         } else {
-          setIsError({
-            variant: "error",
-            message: "El usuario o la contraseña no son correctas"
-          });
+              toast.error('⚠ El usuario o la contraseña no son correctas!');
+          
         }
       })
       .catch(e => {
-        setIsError({ variant: "error", message: "El usuario o la contraseña no son correctas" });
         setIsLoading(false);
+        toast.error('⚠ El usuario o la contraseña no son correctas!');
       });
   }
 
@@ -329,23 +330,17 @@ const SignIn = props => {
           </div>
         </Grid>
       </Grid>
-         {isError.variant ? (
-            <Notify
-              display={isError.variant ? true : false}
-              onClose={value => (value ? setIsError({}) : null)}
-              variant={isError.variant}
-              message={isError.message}
-              autoHide={true}
-            />
-             ) : null}
-         {isIdle ? (
-            <Notify
-              display={isIdle}
-              onClose={(e)=>setIsIdle(false)}
-              variant={'warning'}
-              message={'Se desconectó la sesión por inactividad'}
-            />
-             ) : null}
+        <ToastContainer
+            position="bottom-right"
+            autoClose={3000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnVisibilityChange
+            draggable
+            pauseOnHover
+          />
     </div>
   );
 }
