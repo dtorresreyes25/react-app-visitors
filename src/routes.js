@@ -10,7 +10,6 @@ import {
   Dashboard as DashboardView,
   UserList as UserListView,
   Account as AccountView,
-  Settings as SettingsView,
   SignIn as SignInView,
   NotFound as NotFoundView,
   AddForm as AddFormView
@@ -54,13 +53,6 @@ const Routes = () => {
         exact
         layout={MainLayout}
         path="/account"
-        privateRoute
-      />
-      <RouteWithLayout
-        component={SettingsView}
-        exact
-        layout={MainLayout}
-        path="/settings"
         privateRoute
       />
       <RouteWithLayout

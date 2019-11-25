@@ -3,243 +3,218 @@ import { Link as RouterLink, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import validate from 'validate.js';
 
-import axios from 'axios';
-import { useAuth} from "../../context/auth";
-
+import { useAuth } from "../../context/auth";
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import { makeStyles } from '@material-ui/styles';
 import {
-  Grid,
-  Button,
-  IconButton,
-  TextField,
-  Link,
-  Typography
+    Grid,
+    Button,
+    IconButton,
+    TextField,
+    Link,
+    Typography
 } from '@material-ui/core';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 
 
 const schema = {
-  email: {
-    presence: { allowEmpty: false, message: 'es obligatorio rellenarlo' },
     email: {
-      message: "no parece ser una dirección válida"
+        presence: { allowEmpty: false, message: 'es obligatorio rellenarlo' },
+        email: {
+            message: "no parece ser una dirección válida"
+        },
+        length: {
+            maximum: 64
+        }
     },
-    length: {
-      maximum: 64
+    password: {
+        presence: { allowEmpty: false, message: 'es obligatorio rellenarlo' },
+        length: {
+            maximum: 128
+        }
     }
-  },
-  password: {
-    presence: { allowEmpty: false, message: 'es obligatorio rellenarlo' },
-    length: {
-      maximum: 128
-    }
-  }
 };
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    backgroundColor: theme.palette.background.default,
-    height: '100%'
-  },
-  grid: {
-    height: '100%'
-  },
-  quoteContainer: {
-    [theme.breakpoints.down('md')]: {
-      display: 'none'
+    root: {
+        backgroundColor: theme.palette.background.default,
+        height: '100%'
+    },
+    grid: {
+        height: '100%'
+    },
+    quoteContainer: {
+        [theme.breakpoints.down('md')]: {
+            display: 'none'
+        }
+    },
+    quote: {
+        backgroundColor: theme.palette.neutral,
+        height: '100%',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundImage: 'url(/images/entrada-ict.jpg)',
+        backgroundSize: 'cover',
+        backgroundRepeat: 'no-repeat',
+        backgroundPosition: 'center'
+    },
+    quoteInner: {
+        textAlign: 'center',
+        flexBasis: '600px'
+    },
+    quoteText: {
+        color: theme.palette.white,
+        fontWeight: 300
+    },
+    name: {
+        marginTop: theme.spacing(3),
+        color: theme.palette.white
+    },
+    bio: {
+        color: theme.palette.white
+    },
+    contentContainer: {},
+    content: {
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column'
+    },
+    contentHeader: {
+        display: 'flex',
+        alignItems: 'center',
+        paddingTop: theme.spacing(5),
+        paddingBototm: theme.spacing(2),
+        paddingLeft: theme.spacing(2),
+        paddingRight: theme.spacing(2)
+    },
+    logoImage: {
+        marginLeft: theme.spacing(4)
+    },
+    contentBody: {
+        flexGrow: 1,
+        display: 'flex',
+        alignItems: 'center',
+        [theme.breakpoints.down('md')]: {
+            justifyContent: 'center'
+        }
+    },
+    form: {
+        paddingLeft: 100,
+        paddingRight: 100,
+        paddingBottom: 125,
+        flexBasis: 700,
+        [theme.breakpoints.down('sm')]: {
+            paddingLeft: theme.spacing(2),
+            paddingRight: theme.spacing(2)
+        }
+    },
+    title: {
+        marginTop: theme.spacing(3)
+    },
+    socialButtons: {
+        marginTop: theme.spacing(3)
+    },
+    socialIcon: {
+        marginRight: theme.spacing(1)
+    },
+    sugestion: {
+        marginTop: theme.spacing(2),
+        textAlign: 'left'
+    },
+    textField: {
+        marginTop: theme.spacing(2)
+    },
+    signInButton: {
+        margin: theme.spacing(2, 0)
     }
-  },
-  quote: {
-    backgroundColor: theme.palette.neutral,
-    height: '100%',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundImage: 'url(/images/entrada-ict.jpg)',
-    backgroundSize: 'cover',
-    backgroundRepeat: 'no-repeat',
-    backgroundPosition: 'center'
-  },
-  quoteInner: {
-    textAlign: 'center',
-    flexBasis: '600px'
-  },
-  quoteText: {
-    color: theme.palette.white,
-    fontWeight: 300
-  },
-  name: {
-    marginTop: theme.spacing(3),
-    color: theme.palette.white
-  },
-  bio: {
-    color: theme.palette.white
-  },
-  contentContainer: {},
-  content: {
-    height: '100%',
-    display: 'flex',
-    flexDirection: 'column'
-  },
-  contentHeader: {
-    display: 'flex',
-    alignItems: 'center',
-    paddingTop: theme.spacing(5),
-    paddingBototm: theme.spacing(2),
-    paddingLeft: theme.spacing(2),
-    paddingRight: theme.spacing(2)
-  },
-  logoImage: {
-    marginLeft: theme.spacing(4)
-  },
-  contentBody: {
-    flexGrow: 1,
-    display: 'flex',
-    alignItems: 'center',
-    [theme.breakpoints.down('md')]: {
-      justifyContent: 'center'
-    }
-  },
-  form: {
-    paddingLeft: 100,
-    paddingRight: 100,
-    paddingBottom: 125,
-    flexBasis: 700,
-    [theme.breakpoints.down('sm')]: {
-      paddingLeft: theme.spacing(2),
-      paddingRight: theme.spacing(2)
-    }
-  },
-  title: {
-    marginTop: theme.spacing(3)
-  },
-  socialButtons: {
-    marginTop: theme.spacing(3)
-  },
-  socialIcon: {
-    marginRight: theme.spacing(1)
-  },
-  sugestion: {
-    marginTop: theme.spacing(2),
-    textAlign: 'left'
-  },
-  textField: {
-    marginTop: theme.spacing(2)
-  },
-  signInButton: {
-    margin: theme.spacing(2, 0)
-  }
 }));
 
 
 
 const SignIn = props => {
 
-  const auth = useAuth();
+    const auth = useAuth();
 
-  const { history } = props;
+    const { history } = props;
 
-  const classes = useStyles();
+    const classes = useStyles();
 
-  const [formState, setFormState] = useState({
-    isValid: false,
-    values: {},
-    touched: {},
-    errors: {}
-  });
+    const [formState, setFormState] = useState({
+        isValid: false,
+        values: {},
+        touched: {},
+        errors: {}
+    });
 
-  const [isIdle, setIsIdle] = useState(auth.isIdle)
-  const [isLoading, setIsLoading] = useState(false);
+    const [isIdle, setIsIdle] = useState(auth.isIdle)
+    const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    const errors = validate(formState.values, schema);
+    useEffect(() => {
+        const errors = validate(formState.values, schema);
 
-    setFormState(formState => ({
-      ...formState,
-      isValid: errors ? false : true,
-      errors: errors || {}
-    }));
-  }, [formState.values,isIdle]);
+        setFormState(formState => ({
+            ...formState,
+            isValid: errors ? false : true,
+            errors: errors || {}
+        }));
+    }, [formState.values, isIdle]);
 
-  // const handleBack = () => {
-  //   history.goBack();
-  // };
+    // const handleBack = () => {
+    //   history.goBack();
+    // };
 
- 
-  const handleChange = event => {
-    event.persist();
 
-    setFormState(formState => ({
-      ...formState,
-      values: {
-        ...formState.values,
-        [event.target.name]:
-          event.target.type === 'checkbox'
-            ? event.target.checked
-            : event.target.value
-      },
-      touched: {
-        ...formState.touched,
-        [event.target.name]: true
-      }
-    }));
-  };
+    const handleChange = event => {
+        event.persist();
 
-   const login = () => {
-  
-    setIsLoading(true);
+        setFormState(formState => ({
+            ...formState,
+            values: {
+                ...formState.values,
+                [event.target.name]: event.target.type === 'checkbox' ?
+                    event.target.checked : event.target.value
+            },
+            touched: {
+                ...formState.touched,
+                [event.target.name]: true
+            }
+        }));
+    };
 
-    const url = "https://api.ict.cu/visitors/api/v1/login";
-    axios({
-      method: "get",
-      url,
-      auth: {
-        username: formState.values.email,
-        password: formState.values.password
-      }
-    })
-      .then(result => {
+    const login = () => {
 
-        if (result.status === 200) {
+        setIsLoading(true);
 
-          
-         
-          auth.setSessionCookie(result.data);
-                 
-          history.push("/");
-          
-          setIsLoading(false);  
-          
+
+        const email = formState.values.email;
+        const pwd = formState.values.password;
+
+        const isAuthenticated = auth.signIn(email, pwd)
+
+        if (isAuthenticated) {
+            setIsLoading(false);
+            history.push("/");
+
         } else {
-              toast.error('⚠ El usuario o la contraseña no son correctas!');
-          
+            setIsLoading(false);
+            toast.error('⚠ El usuario o la contraseña no son correctas!');
         }
-      })
-      .catch(e => {
-        setIsLoading(false);
-        toast.error('⚠ El usuario o la contraseña no son correctas!');
-      });
-  }
+    }
 
-  const handleSignIn = event => {
-    
-    event.preventDefault();
-    
-    login();
-    //history.push('/');
-    //setIsLoading(true)
-    //setTimeout(()=>setIsLoading(false),6000);
-  };
+    const handleSignIn = event => {
+        event.preventDefault();
+        login();
+    };
 
-  const hasError = field => formState.touched[field] && formState.errors[field] ? true : false;
+    const hasError = field => formState.touched[field] && formState.errors[field] ? true : false;
 
-  return (
-    <div className={classes.root}>
+    return (
+        <div className={classes.root}>
       <Grid
         className={classes.grid}
         container
@@ -331,7 +306,7 @@ const SignIn = props => {
         </Grid>
       </Grid>
         <ToastContainer
-            position="bottom-right"
+            position="top-center"
             autoClose={3000}
             hideProgressBar={false}
             newestOnTop={false}
@@ -342,12 +317,12 @@ const SignIn = props => {
             pauseOnHover
           />
     </div>
-  );
+    );
 }
 
 
 SignIn.propTypes = {
-  history: PropTypes.object
+    history: PropTypes.object
 };
 
 export default withRouter(SignIn);

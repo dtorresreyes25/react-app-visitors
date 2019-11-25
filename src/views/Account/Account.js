@@ -10,7 +10,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Account = () => {
+const Account = ({userSession}) => {
   const classes = useStyles();
 
   return (
@@ -26,7 +26,7 @@ const Account = () => {
           xl={4}
           xs={12}
         >
-          <AccountProfile />
+          <AccountProfile userSession={userSession} />
         </Grid>
         <Grid
           item

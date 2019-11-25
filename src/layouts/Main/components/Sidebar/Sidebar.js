@@ -62,12 +62,7 @@ const Sidebar = props => {
       href: '/account',
       icon: <SettingsIcon />
     },
-    {
-      title: 'Configuración',
-      href: '/settings',
-      icon: <SettingsIcon />
-    }
-  ];
+     ];
 
   return (
     <Drawer

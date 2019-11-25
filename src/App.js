@@ -29,7 +29,6 @@ validate.validators = {
 export default class App extends Component {
   render() {
     return (
-     
       <ThemeProvider theme={theme}>
       <AuthProvider>
         <Router history={browserHistory}>
@@ -37,7 +36,6 @@ export default class App extends Component {
         </Router>
       </AuthProvider>  
       </ThemeProvider>
-     
     );
   }
 }

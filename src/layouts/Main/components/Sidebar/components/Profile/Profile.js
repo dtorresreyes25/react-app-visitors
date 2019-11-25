@@ -8,22 +8,22 @@ import { deepPurple } from '@material-ui/core/colors';
 
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    minHeight: 'fit-content'
-  },
-  avatar: {
-    width: 60,
-    height: 60,
-    margin: 10,
-    color: '#fff',
-    backgroundColor: deepPurple[500],
-  },
-  name: {
-    marginTop: theme.spacing(1)
-  }
+    root: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        minHeight: 'fit-content'
+    },
+    avatar: {
+        width: 60,
+        height: 60,
+        margin: 10,
+        color: '#fff',
+        backgroundColor: deepPurple[500],
+    },
+    name: {
+        marginTop: theme.spacing(1)
+    }
 }));
 
 
@@ -32,20 +32,16 @@ const Profile = props => {
 
 
 
-  const { className, userSession, ...rest } = props;
+    const { className, userSession, ...rest } = props;
 
-  const {email,name,public_id} = userSession.authSession.user
-  const classes = useStyles();
+    //const { email, name, public_id, avatar, token } = { email: 'dtorres@ictsa.cu', name: 'dayron', public_id: '12345', avatar: "avatar.jpg", token: userSession.authSession.token }
 
-  const user = {
-    name: name,
-    //avatar: '/images/avatars/avatar_11.png',
-    avatar: '',
-    bio: email
-  };
+    const { email, name, public_id, avatar, token } = props.userSession.authSession
 
-  return (
-    <div
+    const classes = useStyles();
+
+    return (
+        <div
       {...rest}
       className={clsx(classes.root, className)}
     >
@@ -53,25 +49,24 @@ const Profile = props => {
         alt="Person"
         className={classes.avatar}
         component={RouterLink}
-        //src={user.avatar? user.avatar :null}
-        src={user.avatar? user.avatar :null}
-        to="/settings"
+        src={avatar ? `https://api.ict.cu/visitors/api/v1/user/image?name=${avatar}&token=${token}` :null}
+        to="/account"
       >
-      {!user.avatar? user.name.substr(0,1) :null}
+      {!avatar? name.substr(0,2) :null}
       </Avatar>
            <Typography
         className={classes.name}
         variant="h4"
       >
-        {user.name}
+        {name}
       </Typography>
-      <Typography variant="body2">{user.bio}</Typography>
+      <Typography variant="body2">{email}</Typography>
     </div>
-  );
+    );
 };
 
 Profile.propTypes = {
-  className: PropTypes.string
+    className: PropTypes.string
 };
 
 export default Profile;

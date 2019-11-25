@@ -1,110 +1,105 @@
-import React,{useState,useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import moment from 'moment';
-import {useAuth} from '../../../../context/auth'
 import { makeStyles } from '@material-ui/styles';
 import {
-  Card,
-  CardActions,
-  CardContent,
-  Avatar,
-  Typography,
-  Divider,
-  Button,
-  LinearProgress
+    Card,
+    CardActions,
+    CardContent,
+    Avatar,
+    Typography,
+    Divider,
+    Button,
+    LinearProgress,
+    Chip
 } from '@material-ui/core';
 import PhotoCamera from '@material-ui/icons/PhotoCamera';
 import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const useStyles = makeStyles(theme => ({
-  root: {},
-  details: {
-    display: 'flex'
-  },
-  avatar: {
-    marginLeft: 'auto',
-    height: 110,
-    width: 100,
-    flexShrink: 0,
-    flexGrow: 0
-  },
-  progress: {
-    marginTop: theme.spacing(2)
-  },
-  uploadButton: {
-    marginRight: theme.spacing(2)
-  }
+    root: {},
+    details: {
+        display: 'flex'
+    },
+    avatar: {
+        marginLeft: 'auto',
+        height: 110,
+        width: 100,
+        flexShrink: 0,
+        flexGrow: 0
+    },
+    progress: {
+        marginTop: theme.spacing(2)
+    },
+    uploadButton: {
+        marginRight: theme.spacing(2)
+    }
 }));
 
 
 const AccountProfile = props => {
 
-  const auth = useAuth();
 
-  const [profilePic,setProfilePic] = useState({});
-  const [isLoading, setIsLoading] = useState(false)
-  const [isError, setIsError] = useState({});
+    const [file, setFile] = useState('');
 
-  const {email,name,public_id} = auth.authSession.user
+    const [uploadPercentage, setUploadPercentage] = useState(0);
 
-  const { className, ...rest } = props;
+    const { email, name, public_id, avatar, token } = props.userSession.authSession;
 
-  const classes = useStyles();
+    //const { email, name, public_id, avatar } = { email: 'dtorres@ictsa.cu', name: 'dayron', public_id: '12345', avatar: 'http://localhost' }
 
-  const user = {
-    name: name,
-    city: 'Los Angeles',
-    country: 'USA',
-    timezone: 'GTM-7',
-    avatar: '/images/avatars/avatar_11.png'
-  };
 
-  useEffect(()=>{
 
-    if(profilePic.name) UploadProfilePic()
-     
-     console.log('[AccountProfile.js] => effect')
-     console.log('[AccountProfile.js] =>',profilePic.name)
+    const { className, ...rest } = props;
 
-  },[profilePic.name])
+    const classes = useStyles();
 
-  const UploadProfilePic=()=>{
+    const user = {
+        name: name,
+        city: 'Los Angeles',
+        country: 'USA',
+        timezone: 'GTM-7',
+        avatar: '/images/avatars/avatar_11.png'
+    };
 
-    const formData = new FormData();
-    formData.append('title', 'prof.jpg');
-    formData.append('file', profilePic);
 
-    console.log(formData)
-    
-    const url = "https://api.ict.cu/visitors/api/v1/user/image";
-    
-         axios.post(url,
-          formData, {
-             headers: {"Authorization" : 'Basic','Content-Type': 'multipart/form-data',"x-access-token":`${auth.authSession.token}`} 
-          }
-        ).then(function () {
-          console.log('SUCCESS!!', profilePic);
-          setIsLoading(false)
+    const onChange = e => {
+        setFile(e.target.files[0])
+    };
 
+    const onSubmit = e => {
+
+        e.preventDefault();
+
+        const upload = props.userSession.uploadUserAvatar(file, setUploadPercentage)
+
+        upload.then((r) => {
+
+            if (r.status === 201) {
+
+                toast.success("Imagen guardada satisfactoriamente")
+
+                setFile('')
+
+            } else {
+
+                toast.error("Hubo un error y no se pudo guardar la imagen")
+
+            }
         })
-        .catch(function (e) {
-          console.log('FAILURE!!', e);
 
-          setIsLoading(false)
-          setIsError({variant: 'error', msg: 'no se pudo subir la imagen'})
-        });
+    };
 
-  }
-  
-  const onChange=(e)=>{
+    const handleDelete = () => {
+        setFile('')
+    };
 
-    setProfilePic(e.target.files[0]);
 
-  }
-
-  return (
-    <Card
+    return (
+        <Card
       {...rest}
       className={clsx(classes.root, className)}
     >
@@ -115,7 +110,7 @@ const AccountProfile = props => {
               gutterBottom
               variant="h2"
             >
-              {user.name}
+              {name}
             </Typography>
             
             <Typography
@@ -123,21 +118,33 @@ const AccountProfile = props => {
               color="textSecondary"
               variant="body1"
             >
-              {moment().format('hh:mm A')} ({user.timezone})
+              ID: {public_id}
             </Typography>
           </div>
           <Avatar
             className={classes.avatar}
-            src={user.avatar}
+            src={`https://api.ict.cu/visitors/api/v1/user/image?name=${avatar}&token=${token}`}
           />
         </div>
-        <div className={classes.progress}>
-          <Typography variant="body1">Profile Completeness: 70%</Typography>
-          <LinearProgress
-            value={70}
-            variant="determinate"
-          />
-        </div>
+
+          { file.name ? (
+            
+             <div className={classes.progress} >
+             <Chip
+                avatar={<Avatar alt="Natacha" src={URL.createObjectURL(file)} />}
+                label={file.name.substr(0, 60)}
+                onDelete={handleDelete}
+                variant="outlined"
+                style={{marginBottom: 10 }}
+             />
+                <LinearProgress
+                  value={uploadPercentage}
+                  variant="determinate"
+                />
+                    </div>
+            ): null
+         } 
+    
       </CardContent>
       <Divider />
       <CardActions>
@@ -152,15 +159,14 @@ const AccountProfile = props => {
           style={{ display: 'none', }}
         />
         <label htmlFor="icon-button-file">
-          <Button
-            variant="contained"
+       <Button
+            variant="text"
             component="span"
             className={classes.button}
-            size="large"
             color="primary"
           >
-            <PhotoCamera className={classes.extendedIcon} />Subir
-          </Button>
+            <PhotoCamera className={classes.extendedIcon} /> Selecciona
+      </Button>
         </label>
      
 
@@ -169,17 +175,29 @@ const AccountProfile = props => {
           className={classes.uploadButton}
           color="primary"
           variant="text"
+          disabled={ !file ? true : false }
+          onClick={onSubmit}
         >
-          Upload picture
+          Guardar
         </Button>
-        <Button variant="text">Remove picture</Button>
       </CardActions>
+      <ToastContainer
+            position="top-center"
+            autoClose={3000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnVisibilityChange
+            draggable
+            pauseOnHover
+          />
     </Card>
-  );
+    );
 };
 
 AccountProfile.propTypes = {
-  className: PropTypes.string
+    className: PropTypes.string
 };
 
 export default AccountProfile;
