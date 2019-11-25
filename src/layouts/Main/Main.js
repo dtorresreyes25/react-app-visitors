@@ -34,7 +34,6 @@ const Main = props => {
   });
 
   const [openSidebar, setOpenSidebar] = useState(false);
-  const [isTimedOut, setIsTimedOut]= useState(false)
 
 
 
@@ -47,28 +46,7 @@ const Main = props => {
     setOpenSidebar(false);
   };
 
-  function onAction(e) {
-      console.log('user did something', e)
-      setIsTimedOut(false)
-    }
-   
-  function onActive(e) {
-      console.log('user is active', e)
-      setIsTimedOut(false)
-    }
-   
-  function onIdle(e) {
-      console.log('user is idle', e)
-      const isTimedOut = isTimedOut
-      if (isTimedOut) {
-          this.props.history.push('/')
-      } else {
-        //this.setState({showModal: true})
-        this.idleTimer.reset();
-        setIsTimedOut(false)
-      }
-}
-
+ 
   const shouldOpenSidebar = isDesktop ? true : openSidebar;
 
   return (
@@ -90,7 +68,7 @@ const Main = props => {
        <Idle
           onChange={({ idle }) => { 
             if(idle){
-              userSession.signOut()
+              //userSession.signOut()
             }
              }}
           timeout={60000}

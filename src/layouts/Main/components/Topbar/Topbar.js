@@ -9,39 +9,39 @@ import NotificationsIcon from '@material-ui/icons/NotificationsOutlined';
 import InputIcon from '@material-ui/icons/Input';
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    boxShadow: 'none'
-  },
-  flexGrow: {
-    flexGrow: 1
-  },
-  signOutButton: {
-    marginLeft: theme.spacing(1)
-  },
-   logo: {
-      paddingRight: 0,
-      width: 50,
-      height: 40
+    root: {
+        boxShadow: 'none'
+    },
+    flexGrow: {
+        flexGrow: 1
+    },
+    signOutButton: {
+        marginLeft: theme.spacing(1)
+    },
+    logo: {
+        paddingRight: 0,
+        width: 50,
+        height: 40
     },
     logoText: {
-      paddingRight: 0,
-      display: 'inline-block',
-      color: '#fff',
-      paddingTop: 7,
-      verticalAlign: 'top',
-      marginLeft: 5,
+        paddingRight: 0,
+        display: 'inline-block',
+        color: '#fff',
+        paddingTop: 7,
+        verticalAlign: 'top',
+        marginLeft: 5,
     },
 }));
 
 const Topbar = props => {
-  const { className, onSidebarOpen, userSession , ...rest } = props;
+    const { className, onSidebarOpen, userSession, ...rest } = props;
 
-  const classes = useStyles();
+    const classes = useStyles();
 
-  const [notifications] = useState([]);
+    const [notifications] = useState([]);
 
-  return (
-    <AppBar
+    return (
+        <AppBar
       {...rest}
       className={clsx(classes.root, className)}
     >
@@ -90,12 +90,12 @@ const Topbar = props => {
         </Hidden>
       </Toolbar>
     </AppBar>
-  );
+    );
 };
 
 Topbar.propTypes = {
-  className: PropTypes.string,
-  onSidebarOpen: PropTypes.func
+    className: PropTypes.string,
+    onSidebarOpen: PropTypes.func
 };
 
 export default Topbar;

@@ -27,7 +27,7 @@ const RouteWithLayout = props => {
                                           
                                                            : (
                                                                 <Layout>
-                                                                    <Component {...matchProps} />
+                                                                    <Component {...matchProps} userSession={auth} />
                                                                 </Layout>
                                                              )
                                        ) 
