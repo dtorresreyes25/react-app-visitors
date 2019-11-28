@@ -7,65 +7,66 @@ import DashboardIcon from '@material-ui/icons/Dashboard';
 import PeopleIcon from '@material-ui/icons/People';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import SettingsIcon from '@material-ui/icons/Settings';
-import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
+import PersonAddIcon from '@material-ui/icons/PersonAdd';
+
+
 
 
 
 import { Profile, SidebarNav } from './components';
 
 const useStyles = makeStyles(theme => ({
-  drawer: {
-    width: 240,
-    [theme.breakpoints.up('lg')]: {
-      marginTop: 64,
-      height: 'calc(100% - 64px)'
+    drawer: {
+        width: 240,
+        [theme.breakpoints.up('lg')]: {
+            marginTop: 64,
+            height: 'calc(100% - 64px)'
+        }
+    },
+    root: {
+        backgroundColor: theme.palette.white,
+        display: 'flex',
+        flexDirection: 'column',
+        height: '100%',
+        padding: theme.spacing(2)
+    },
+    divider: {
+        margin: theme.spacing(2, 0)
+    },
+    nav: {
+        marginBottom: theme.spacing(2)
     }
-  },
-  root: {
-    backgroundColor: theme.palette.white,
-    display: 'flex',
-    flexDirection: 'column',
-    height: '100%',
-    padding: theme.spacing(2)
-  },
-  divider: {
-    margin: theme.spacing(2, 0)
-  },
-  nav: {
-    marginBottom: theme.spacing(2)
-  }
 }));
 
 const Sidebar = props => {
-  const { open, variant, onClose, className, userSession, ...rest } = props;
+    const { open, variant, onClose, className, userSession, ...rest } = props;
 
-  const classes = useStyles();
+    const classes = useStyles();
 
-  const pages = [
-    {
-      title: 'Resumen',
-      href: '/dashboard',
-      icon: <DashboardIcon />
-    },
-    {
-      title: 'Visitantes',
-      href: '/users',
-      icon: <PeopleIcon />
-    },
-    {
-      title: 'Añadir Visitante',
-      href: '/visitor-add',
-      icon: <SupervisorAccountIcon />
-    },
-    {
-      title: 'Cuenta',
-      href: '/account',
-      icon: <SettingsIcon />
-    },
-     ];
+    const pages = [{
+            title: 'Resumen',
+            href: '/dashboard',
+            icon: <DashboardIcon />
+        },
+        {
+            title: 'Visitantes',
+            href: '/users',
+            icon: <PeopleIcon />
+        },
+        {
+            title: 'Añadir Visitante',
+            href: '/visitor-add',
+            icon: <PersonAddIcon />
+        },
+        {
+            title: 'Cuenta',
+            href: '/account',
+            icon: <SettingsIcon />
+        },
+    ];
 
-  return (
-    <Drawer
+    return (
+        <Drawer
       anchor="left"
       classes={{ paper: classes.drawer }}
       onClose={onClose}
@@ -85,14 +86,14 @@ const Sidebar = props => {
  
       </div>
     </Drawer>
-  );
+    );
 };
 
 Sidebar.propTypes = {
-  className: PropTypes.string,
-  onClose: PropTypes.func,
-  open: PropTypes.bool.isRequired,
-  variant: PropTypes.string.isRequired
+    className: PropTypes.string,
+    onClose: PropTypes.func,
+    open: PropTypes.bool.isRequired,
+    variant: PropTypes.string.isRequired
 };
 
 export default Sidebar;

@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Link as RouterLink, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import validate from 'validate.js';
+
 
 import { useAuth } from "../../context/auth";
+
+import useForm from '../../helpers/useForm'
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -23,16 +25,16 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 const schema = {
     email: {
-        presence: { allowEmpty: false, message: 'es obligatorio rellenarlo' },
+        presence: { allowEmpty: false, message: '^El email es obligatorio rellenarlo.' },
         email: {
-            message: "no parece ser una dirección válida"
+            message: "^El email no parece ser una dirección válida."
         },
         length: {
             maximum: 64
         }
     },
     password: {
-        presence: { allowEmpty: false, message: 'es obligatorio rellenarlo' },
+        presence: { allowEmpty: false, message: '^La contraseña es obligatorio rellenarla.' },
         length: {
             maximum: 128
         }
@@ -144,52 +146,14 @@ const SignIn = props => {
 
     const classes = useStyles();
 
-    const [formState, setFormState] = useState({
-        isValid: false,
-        values: {},
-        touched: {},
-        errors: {}
-    });
 
-    const [isIdle, setIsIdle] = useState(auth.isIdle)
+    const { hasError, handleChange, handleBlur, handleSubmit, formState } = useForm(login, schema, null)
+
     const [isLoading, setIsLoading] = useState(false);
 
-    useEffect(() => {
-        const errors = validate(formState.values, schema);
-
-        setFormState(formState => ({
-            ...formState,
-            isValid: errors ? false : true,
-            errors: errors || {}
-        }));
-    }, [formState.values, isIdle]);
-
-    // const handleBack = () => {
-    //   history.goBack();
-    // };
-
-
-    const handleChange = event => {
-        event.persist();
-
-        setFormState(formState => ({
-            ...formState,
-            values: {
-                ...formState.values,
-                [event.target.name]: event.target.type === 'checkbox' ?
-                    event.target.checked : event.target.value
-            },
-            touched: {
-                ...formState.touched,
-                [event.target.name]: true
-            }
-        }));
-    };
-
-    const login = () => {
+    function login() {
 
         setIsLoading(true);
-
 
         const email = formState.values.email;
         const pwd = formState.values.password;
@@ -206,12 +170,6 @@ const SignIn = props => {
         }
     }
 
-    const handleSignIn = event => {
-        event.preventDefault();
-        login();
-    };
-
-    const hasError = field => formState.touched[field] && formState.errors[field] ? true : false;
 
     return (
         <div className={classes.root}>
@@ -243,7 +201,7 @@ const SignIn = props => {
             <div className={classes.contentBody}>
               <form
                 className={classes.form}
-                onSubmit={handleSignIn}
+                onSubmit={handleSubmit}
               >
                 <Typography
                   className={classes.title}
@@ -270,6 +228,7 @@ const SignIn = props => {
                   label="Email"
                   name="email"
                   onChange={handleChange}
+                  onBlur={handleBlur}
                   type="text"
                   value={formState.values.email || ''}
                   variant="outlined"
@@ -291,7 +250,7 @@ const SignIn = props => {
                 <Button
                   className={classes.signInButton}
                   color="primary"
-                  disabled={ isLoading ? true : !formState.isValid ? true : false }
+                  disabled = { ((formState.values.email && formState.values.password) || isLoading)? false : true }
                   fullWidth
                   size="large"
                   type="submit"
@@ -307,7 +266,7 @@ const SignIn = props => {
       </Grid>
         <ToastContainer
             position="top-center"
-            autoClose={3000}
+            autoClose={1500}
             hideProgressBar={false}
             newestOnTop={false}
             closeOnClick

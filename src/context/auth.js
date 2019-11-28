@@ -37,8 +37,6 @@ function useAuthProvider() {
         return removedAccent
     }
 
-
-
     const uploadUserAvatar = async (file, progress) => {
 
         const formData = new FormData();
@@ -88,6 +86,41 @@ function useAuthProvider() {
     }
 
 
+    async function editUserInfo(data) {
+
+        const url = 'https://api.ict.cu/visitors/api/v1/user/edit'
+
+        const dataToSubmit = data
+
+        try {
+            const response = await fetch(url, {
+                method: 'PUT',
+                body: JSON.stringify(dataToSubmit),
+                headers: {
+                    'x-access-token': authSession.token,
+                    'Content-Type': 'application/json'
+                }
+            })
+
+            if (!data.password) {
+
+                const newAuthSession = { ...authSession };
+
+                for (let prop in data) {
+                    newAuthSession[prop] = data[prop];
+                }
+                setTimeout(() => setSessionCookie(newAuthSession), 500);
+            }
+
+            return response
+
+        } catch (e) {
+
+            console.log(e)
+        }
+    }
+
+
     const signOut = () => {
 
         Cookies.remove("session");
@@ -120,6 +153,7 @@ function useAuthProvider() {
                 }
             })
             .catch(e => {
+                console.log(e)
                 return false
             });
     }
@@ -129,7 +163,8 @@ function useAuthProvider() {
         authSession,
         signOut,
         signIn,
-        uploadUserAvatar
+        uploadUserAvatar,
+        editUserInfo,
     }
 }
 
