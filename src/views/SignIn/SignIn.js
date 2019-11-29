@@ -19,7 +19,10 @@ import {
     Link,
     Typography
 } from '@material-ui/core';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import { Face, Fingerprint } from '@material-ui/icons'
+import MailOutlineTwoToneIcon from '@material-ui/icons/MailOutlineTwoTone';
+
+
 
 
 
@@ -160,14 +163,24 @@ const SignIn = props => {
 
         const isAuthenticated = auth.signIn(email, pwd)
 
-        if (isAuthenticated) {
-            setIsLoading(false);
-            history.push("/");
+        console.log(isAuthenticated)
 
-        } else {
-            setIsLoading(false);
-            toast.error('⚠ El usuario o la contraseña no son correctas!');
-        }
+        isAuthenticated.then(r => {
+
+            console.log(r);
+
+            if (r) {
+
+                setIsLoading(false);
+                history.push("/");
+
+            } else {
+
+                setIsLoading(false);
+                toast.error('⚠ El usuario o la contraseña no son correctas!');
+
+            }
+        })
     }
 
 
@@ -192,6 +205,7 @@ const SignIn = props => {
           lg={7}
           xs={12}
         >
+
           <div className={classes.content}>
             <div className={classes.contentHeader}>
               {/*<IconButton onClick={handleBack}>
@@ -218,6 +232,9 @@ const SignIn = props => {
                 >
                   Entre sus credenciales debajo
                 </Typography>
+
+                <div style={{display:'flex',alignItems:'center'}}> 
+                <MailOutlineTwoToneIcon style={{marginTop:'13px',marginRight: '7px'}} />          
                 <TextField
                   className={classes.textField}
                   error={hasError('email')}
@@ -233,6 +250,9 @@ const SignIn = props => {
                   value={formState.values.email || ''}
                   variant="outlined"
                 />
+                </div>
+                <div style={{display:'flex',alignItems:'center'}}> 
+                 <Fingerprint style={{marginTop:'13px',marginRight: '7px'}} />    
                 <TextField
                   className={classes.textField}
                   error={hasError('password')}
@@ -247,10 +267,11 @@ const SignIn = props => {
                   value={formState.values.password || ''}
                   variant="outlined"
                 />
+                </div>
                 <Button
                   className={classes.signInButton}
                   color="primary"
-                  disabled = { ((formState.values.email && formState.values.password) || isLoading)? false : true }
+                  disabled = { (formState.values.email && formState.values.password && !isLoading)? false : true }
                   fullWidth
                   size="large"
                   type="submit"

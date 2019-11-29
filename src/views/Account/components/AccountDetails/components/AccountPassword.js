@@ -67,6 +67,7 @@ const AccountPassword = props => {
 
                 toast.success("Contraseña actualizada y guardada correctamente!")
 
+
             } else {
 
                 toast.error("Hubo un error y no se pudo guardar la nueva contraseña")
@@ -112,7 +113,7 @@ const AccountPassword = props => {
                 error={hasError('contraseña')}
                 onChange={handleChange}
                 type="password"
-                 value={formState.values.contraseña || ''}
+                value={formState.values.contraseña || ''}
                 required="true"
                 variant="outlined"
                 helperText={

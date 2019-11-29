@@ -128,10 +128,15 @@ function useAuthProvider() {
     }
 
 
-    const signIn = (usr, pwd) => {
+    const signIn = async (usr, pwd) => {
+
+        let isLogged = false
 
         const url = "https://api.ict.cu/visitors/api/v1/login";
-        axios({
+
+        try {
+
+            const login = await axios({
                 method: "get",
                 url,
                 auth: {
@@ -139,23 +144,40 @@ function useAuthProvider() {
                     password: pwd
                 }
             })
-            .then(result => {
 
-                if (result.status === 200) {
+            // const sendCredentials = fetch(url, {
+            //     headers: {
+            //         auth: {
+            //             username: usr,
+            //             password: pwd
+            //         }
+            //     }
+            // })
 
-                    setSessionCookie(result.data.user);
+            const result = await login
 
-                    return true;
+            console.log(result)
 
-                } else {
+            if (result.status === 200) {
 
-                    return false
-                }
-            })
-            .catch(e => {
-                console.log(e)
-                return false
-            });
+                setSessionCookie(result.data.user);
+
+                isLogged = true;
+
+            } else {
+
+                isLogged = false;
+            }
+
+        } catch (e) {
+
+            console.log(e)
+
+            isLogged = false;
+        }
+
+
+        return isLogged
     }
 
 
