@@ -67,7 +67,7 @@ const Main = props => {
       />
       <main className={classes.content}>  
        <Idle
-          timeout={3000}
+          timeout={600000}
           render={ (idle) => <LockScreen userSession={userSession} open={idle.idle} /> }
         />
         {children}

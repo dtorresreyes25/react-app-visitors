@@ -5,18 +5,19 @@ import { makeStyles } from '@material-ui/styles';
 import { Typography, Link } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    padding: theme.spacing(4)
-  }
+    root: {
+        padding: theme.spacing(4),
+        margin: '0 auto',
+        textAlign: 'center'
+    }
 }));
-
 const Footer = props => {
-  const { className, ...rest } = props;
+    const { className, ...rest } = props;
 
-  const classes = useStyles();
+    const classes = useStyles();
 
-  return (
-    <div
+    return (
+        <div
       {...rest}
       className={clsx(classes.root, className)}
     >
@@ -27,19 +28,19 @@ const Footer = props => {
           href="https://intranet.ictsa.cu/"
           target="_blank"
         >
-          Internacional Cubana de Tabacos S.A.
+          Internacional Cubana de Tabacos S.A.{ new Date().getFullYear()}
         </Link>
-         { new Date().getFullYear()}
+      
       </Typography>
       <Typography variant="caption">
         Creado  por dtorres@ictsa.cu
       </Typography>
     </div>
-  );
+    );
 };
 
 Footer.propTypes = {
-  className: PropTypes.string
+    className: PropTypes.string
 };
 
 export default Footer;

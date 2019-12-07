@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
@@ -56,6 +56,9 @@ const AccountPassword = props => {
         confirmación: ""
     }
 
+    const pssw = useRef(null)
+    const confPssw = useRef(null)
+
 
     function submitPassword() {
 
@@ -66,6 +69,8 @@ const AccountPassword = props => {
             if (r.status === 201) {
 
                 toast.success("Contraseña actualizada y guardada correctamente!")
+                pssw.current.value = null
+                confPssw.current.value = null
 
 
             } else {
@@ -109,6 +114,7 @@ const AccountPassword = props => {
              <TextField
                 fullWidth
                 label="Contraseña"
+                inputRef={pssw}
                 name="contraseña"
                 error={hasError('contraseña')}
                 onChange={handleChange}
@@ -129,6 +135,7 @@ const AccountPassword = props => {
              <TextField
                   fullWidth
                   label="Confirmar contraseña"
+                  inputRef={confPssw}
                   name="confirmación"
                   required="true"
                   error={hasError('confirmación')}

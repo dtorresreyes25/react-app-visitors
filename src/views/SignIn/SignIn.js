@@ -150,7 +150,7 @@ const SignIn = props => {
     const classes = useStyles();
 
 
-    const { hasError, handleChange, handleBlur, handleSubmit, formState } = useForm(login, schema, null)
+    const { hasError, handleChange, handleSubmit, formState } = useForm(login, schema, null)
 
     const [isLoading, setIsLoading] = useState(false);
 
@@ -245,7 +245,6 @@ const SignIn = props => {
                   label="Email"
                   name="email"
                   onChange={handleChange}
-                  onBlur={handleBlur}
                   type="text"
                   value={formState.values.email || ''}
                   variant="outlined"
@@ -271,7 +270,7 @@ const SignIn = props => {
                 <Button
                   className={classes.signInButton}
                   color="primary"
-                  disabled = { (formState.values.email && formState.values.password && !isLoading)? false : true }
+                  disabled = { formState.values.email && formState.values.password || isLoading ? false : true }
                   fullWidth
                   size="large"
                   type="submit"

@@ -13,13 +13,18 @@ const useForm = (callback, schema, default_values) => {
 
     const handleChange = event => {
 
-        event.persist();
+        if (event.persist) event.persist();
 
         setFormState(formState => ({
             ...formState,
             values: {
                 ...formState.values,
-                [event.target.name]: event.target.value
+                [event.target.name]: event.target.type === 'checkbox' ?
+                    event.target.checked : event.target.value
+            },
+            touched: {
+                ...formState.touched,
+                [event.target.name]: true
             }
         }));
     };
