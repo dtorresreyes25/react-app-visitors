@@ -1,69 +1,96 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
 import {
-  Card,
-  CardHeader,
-  CardContent,
-  CardActions,
-  Divider,
-  Grid,
-  Button,
-  TextField
+    Card,
+    CardHeader,
+    CardContent,
+    CardActions,
+    Divider,
+    Grid,
+    Button,
+    TextField
 } from '@material-ui/core';
+import { toast } from 'react-toastify';
 
-const useStyles = makeStyles(() => ({
-  root: {}
+import useForm from '../../../../helpers/useForm.js'
+import AccountPassword from './components'
+
+
+
+const useStyles = makeStyles((theme) => ({
+    root: {
+        marginTop: theme.spacing(4)
+    }
 }));
 
-const AccountDetails = props => {
-  const { className, ...rest } = props;
-
-  const classes = useStyles();
-
-  const [values, setValues] = useState({
-    firstName: 'Shen',
-    lastName: 'Zhi',
-    email: 'shen.zhi@devias.io',
-    phone: '',
-    state: 'Alabama',
-    country: 'USA'
-  });
-
-  const handleChange = event => {
-    setValues({
-      ...values,
-      [event.target.name]: event.target.value
-    });
-  };
-
-  const states = [
-    {
-      value: 'alabama',
-      label: 'Alabama'
+const schema = {
+    email: {
+        presence: { allowEmpty: false, message: 'es obligatorio rellenarlo' },
+        email: {
+            message: "no parece ser una dirección válida"
+        },
+        length: {
+            maximum: 64
+        }
     },
-    {
-      value: 'new-york',
-      label: 'New York'
-    },
-    {
-      value: 'san-francisco',
-      label: 'San Francisco'
+    nombre: {
+        presence: { allowEmpty: false, message: 'es obligatorio rellenarlo' },
+        length: {
+            maximum: 128
+        }
     }
-  ];
+};
 
-  return (
-    <Card
+
+const AccountDetails = props => {
+
+    const { className, ...rest } = props;
+
+    const { email, name, public_id, avatar, token } = props.userSession.authSession;
+
+    const classes = useStyles();
+
+    const default_values = {
+        nombre: name,
+        email: email
+    }
+
+    const { hasError, handleChange, handleSubmit, formState } = useForm(submitPersonal, schema, default_values)
+
+
+    function submitPersonal() {
+
+        const resp = props.userSession.editUserInfo({ name: formState.values.nombre, email: formState.values.email })
+
+        resp.then((r) => {
+
+            if (r.status === 201) {
+
+                toast.success("Datos actualizados correctamente!")
+
+            } else {
+
+                toast.error("Hubo un error y no se pudo actualizar los datos")
+
+            }
+        })
+
+    }
+
+    return ( <
+        >
+        <Card
       {...rest}
-      className={clsx(classes.root, className)}
+      className={clsx( className)}
     >
       <form
         autoComplete="off"
         noValidate
       >
         <CardHeader
-          subheader="La información puede ser editada"
+          subheader="Edite su información personal"
           title="Perfil"
         />
         <Divider />
@@ -79,14 +106,17 @@ const AccountDetails = props => {
             >
               <TextField
                 fullWidth
-                helperText="Please specify the first name"
+                required="true"
                 label="Nombre"
                 margin="dense"
-                name="firstName"
-                onChange={handleChange}
-                required
-                value={values.firstName}
+                name="nombre"
+                error={hasError('nombre')}
+                onChange = {handleChange}
+                value={formState.values.nombre}
                 variant="outlined"
+                 helperText={
+                    hasError('nombre') ? formState.errors.nombre[0] : null
+                  }
               />
             </Grid>
             <Grid
@@ -101,60 +131,40 @@ const AccountDetails = props => {
                 name="email"
                 onChange={handleChange}
                 required
-                value={values.email}
+                error={hasError('email')}
+                value={formState.values.email}
                 variant="outlined"
+                required="true"
+                helperText={
+                    hasError('email') ? formState.errors.email[0] : null
+                  }
               />
-            </Grid>
-            <Grid
-              item
-              md={6}
-              xs={12}
-            >
-             <TextField
-                fullWidth
-                label="Contraseña"
-                name="password"
-                onChange={handleChange}
-                type="password"
-                value={values.password}
-                variant="outlined"
-             />
-            </Grid>
-        
-            <Grid
-              item
-              md={6}
-              xs={12}
-            >
-             <TextField
-                  fullWidth
-                  label="Confirmar contraseña"
-                  name="confirm"
-                  onChange={handleChange}
-                  type="password"
-                  value={values.confirm}
-                  variant="outlined"
-               />
-            </Grid>
-          
+            </Grid>  
           </Grid>
         </CardContent>
         <Divider />
         <CardActions>
           <Button
             color="primary"
-            variant="contained"
+            variant="outlined"
+            onClick={handleSubmit}
+            disabled = { ((formState.values.nombre && formState.values.email))? false : true }
           >
             Actualizar
           </Button>
         </CardActions>
+
+        
       </form>
-    </Card>
-  );
+
+    </Card> <
+        AccountPassword userSession = { props.userSession }
+        /> < / >
+    );
 };
 
 AccountDetails.propTypes = {
-  className: PropTypes.string
+    className: PropTypes.string
 };
 
 export default AccountDetails;

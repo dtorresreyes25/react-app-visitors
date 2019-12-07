@@ -16,7 +16,7 @@ import {
 } from '@material-ui/core';
 import PhotoCamera from '@material-ui/icons/PhotoCamera';
 import axios from 'axios';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const useStyles = makeStyles(theme => ({
@@ -57,15 +57,6 @@ const AccountProfile = props => {
 
     const classes = useStyles();
 
-    const user = {
-        name: name,
-        city: 'Los Angeles',
-        country: 'USA',
-        timezone: 'GTM-7',
-        avatar: '/images/avatars/avatar_11.png'
-    };
-
-
     const onChange = e => {
         setFile(e.target.files[0])
     };
@@ -80,7 +71,7 @@ const AccountProfile = props => {
 
             if (r.status === 201) {
 
-                toast.success("Imagen guardada satisfactoriamente")
+                toast.success("Imagen guardada satisfactoriamente!")
 
                 setFile('')
 
@@ -148,8 +139,6 @@ const AccountProfile = props => {
       </CardContent>
       <Divider />
       <CardActions>
-
-
         <input
           color="primary"
           accept="image/*"
@@ -169,30 +158,19 @@ const AccountProfile = props => {
       </Button>
         </label>
      
-
-
         <Button
           className={classes.uploadButton}
           color="primary"
-          variant="text"
+          variant="outlined"
           disabled={ !file ? true : false }
           onClick={onSubmit}
         >
           Guardar
         </Button>
       </CardActions>
-      <ToastContainer
-            position="top-center"
-            autoClose={3000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            pauseOnVisibilityChange
-            draggable
-            pauseOnHover
-          />
+    
     </Card>
+
     );
 };
 

@@ -37,8 +37,6 @@ function useAuthProvider() {
         return removedAccent
     }
 
-
-
     const uploadUserAvatar = async (file, progress) => {
 
         const formData = new FormData();
@@ -88,6 +86,41 @@ function useAuthProvider() {
     }
 
 
+    async function editUserInfo(data) {
+
+        const url = 'https://api.ict.cu/visitors/api/v1/user/edit'
+
+        const dataToSubmit = data
+
+        try {
+            const response = await fetch(url, {
+                method: 'PUT',
+                body: JSON.stringify(dataToSubmit),
+                headers: {
+                    'x-access-token': authSession.token,
+                    'Content-Type': 'application/json'
+                }
+            })
+
+            if (!data.password) {
+
+                const newAuthSession = { ...authSession };
+
+                for (let prop in data) {
+                    newAuthSession[prop] = data[prop];
+                }
+                setTimeout(() => setSessionCookie(newAuthSession), 500);
+            }
+
+            return response
+
+        } catch (e) {
+
+            console.log(e)
+        }
+    }
+
+
     const signOut = () => {
 
         Cookies.remove("session");
@@ -95,10 +128,15 @@ function useAuthProvider() {
     }
 
 
-    const signIn = (usr, pwd) => {
+    const signIn = async (usr, pwd) => {
+
+        let isLogged = false
 
         const url = "https://api.ict.cu/visitors/api/v1/login";
-        axios({
+
+        try {
+
+            const login = await axios({
                 method: "get",
                 url,
                 auth: {
@@ -106,22 +144,40 @@ function useAuthProvider() {
                     password: pwd
                 }
             })
-            .then(result => {
 
-                if (result.status === 200) {
+            // const sendCredentials = fetch(url, {
+            //     headers: {
+            //         auth: {
+            //             username: usr,
+            //             password: pwd
+            //         }
+            //     }
+            // })
 
-                    setSessionCookie(result.data.user);
+            const result = await login
 
-                    return true;
+            console.log(result)
 
-                } else {
+            if (result.status === 200) {
 
-                    return false
-                }
-            })
-            .catch(e => {
-                return false
-            });
+                setSessionCookie(result.data.user);
+
+                isLogged = true;
+
+            } else {
+
+                isLogged = false;
+            }
+
+        } catch (e) {
+
+            console.log(e)
+
+            isLogged = false;
+        }
+
+
+        return isLogged
     }
 
 
@@ -129,7 +185,8 @@ function useAuthProvider() {
         authSession,
         signOut,
         signIn,
-        uploadUserAvatar
+        uploadUserAvatar,
+        editUserInfo,
     }
 }
 

@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Link as RouterLink, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import validate from 'validate.js';
+
 
 import { useAuth } from "../../context/auth";
+
+import useForm from '../../helpers/useForm'
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -17,22 +19,25 @@ import {
     Link,
     Typography
 } from '@material-ui/core';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import { Face, Fingerprint } from '@material-ui/icons'
+import MailOutlineTwoToneIcon from '@material-ui/icons/MailOutlineTwoTone';
+
+
 
 
 
 const schema = {
     email: {
-        presence: { allowEmpty: false, message: 'es obligatorio rellenarlo' },
+        presence: { allowEmpty: false, message: '^El email es obligatorio rellenarlo.' },
         email: {
-            message: "no parece ser una dirección válida"
+            message: "^El email no parece ser una dirección válida."
         },
         length: {
             maximum: 64
         }
     },
     password: {
-        presence: { allowEmpty: false, message: 'es obligatorio rellenarlo' },
+        presence: { allowEmpty: false, message: '^La contraseña es obligatorio rellenarla.' },
         length: {
             maximum: 128
         }
@@ -144,74 +149,40 @@ const SignIn = props => {
 
     const classes = useStyles();
 
-    const [formState, setFormState] = useState({
-        isValid: false,
-        values: {},
-        touched: {},
-        errors: {}
-    });
 
-    const [isIdle, setIsIdle] = useState(auth.isIdle)
+    const { hasError, handleChange, handleSubmit, formState } = useForm(login, schema, null)
+
     const [isLoading, setIsLoading] = useState(false);
 
-    useEffect(() => {
-        const errors = validate(formState.values, schema);
-
-        setFormState(formState => ({
-            ...formState,
-            isValid: errors ? false : true,
-            errors: errors || {}
-        }));
-    }, [formState.values, isIdle]);
-
-    // const handleBack = () => {
-    //   history.goBack();
-    // };
-
-
-    const handleChange = event => {
-        event.persist();
-
-        setFormState(formState => ({
-            ...formState,
-            values: {
-                ...formState.values,
-                [event.target.name]: event.target.type === 'checkbox' ?
-                    event.target.checked : event.target.value
-            },
-            touched: {
-                ...formState.touched,
-                [event.target.name]: true
-            }
-        }));
-    };
-
-    const login = () => {
+    function login() {
 
         setIsLoading(true);
-
 
         const email = formState.values.email;
         const pwd = formState.values.password;
 
         const isAuthenticated = auth.signIn(email, pwd)
 
-        if (isAuthenticated) {
-            setIsLoading(false);
-            history.push("/");
+        console.log(isAuthenticated)
 
-        } else {
-            setIsLoading(false);
-            toast.error('⚠ El usuario o la contraseña no son correctas!');
-        }
+        isAuthenticated.then(r => {
+
+            console.log(r);
+
+            if (r) {
+
+                setIsLoading(false);
+                history.push("/");
+
+            } else {
+
+                setIsLoading(false);
+                toast.error('⚠ El usuario o la contraseña no son correctas!');
+
+            }
+        })
     }
 
-    const handleSignIn = event => {
-        event.preventDefault();
-        login();
-    };
-
-    const hasError = field => formState.touched[field] && formState.errors[field] ? true : false;
 
     return (
         <div className={classes.root}>
@@ -234,6 +205,7 @@ const SignIn = props => {
           lg={7}
           xs={12}
         >
+
           <div className={classes.content}>
             <div className={classes.contentHeader}>
               {/*<IconButton onClick={handleBack}>
@@ -243,7 +215,7 @@ const SignIn = props => {
             <div className={classes.contentBody}>
               <form
                 className={classes.form}
-                onSubmit={handleSignIn}
+                onSubmit={handleSubmit}
               >
                 <Typography
                   className={classes.title}
@@ -260,6 +232,9 @@ const SignIn = props => {
                 >
                   Entre sus credenciales debajo
                 </Typography>
+
+                <div style={{display:'flex',alignItems:'center'}}> 
+                <MailOutlineTwoToneIcon style={{marginTop:'13px',marginRight: '7px'}} />          
                 <TextField
                   className={classes.textField}
                   error={hasError('email')}
@@ -274,6 +249,9 @@ const SignIn = props => {
                   value={formState.values.email || ''}
                   variant="outlined"
                 />
+                </div>
+                <div style={{display:'flex',alignItems:'center'}}> 
+                 <Fingerprint style={{marginTop:'13px',marginRight: '7px'}} />    
                 <TextField
                   className={classes.textField}
                   error={hasError('password')}
@@ -288,10 +266,11 @@ const SignIn = props => {
                   value={formState.values.password || ''}
                   variant="outlined"
                 />
+                </div>
                 <Button
                   className={classes.signInButton}
                   color="primary"
-                  disabled={ isLoading ? true : !formState.isValid ? true : false }
+                  disabled = { formState.values.email && formState.values.password || isLoading ? false : true }
                   fullWidth
                   size="large"
                   type="submit"
@@ -307,7 +286,7 @@ const SignIn = props => {
       </Grid>
         <ToastContainer
             position="top-center"
-            autoClose={3000}
+            autoClose={1500}
             hideProgressBar={false}
             newestOnTop={false}
             closeOnClick

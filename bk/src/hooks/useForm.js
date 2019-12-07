@@ -1,40 +1,45 @@
 import { useState, useEffect } from "react";
+import validate from 'validate.js';
 
-const useForm = (callback, validate) => {
-  const [values, setValues] = useState({});
-  const [errors, setErrors] = useState({});
-  const [isSubmitting, setIsSubmitting] = useState(false);
+const useForm = (callback, validateSchema) => {
 
-  useEffect(() => {
-    if (Object.keys(errors).length === 0 && isSubmitting) {
-      callback();
-    }
-  },[errors]);
+    const schema = validateSchema
 
-  const handleSubmit = event => {
-    if (event) event.preventDefault();
-    setErrors(validate(values));
-    setIsSubmitting(true);
-  };
+    const [values, setValues] = useState({});
+    const [errors, setErrors] = useState({});
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleChange = event => {
-    event.persist();
-    setValues(values => ({
-      ...values,
-      [event.target.name]: event.target.value
-    }));
-    if (errors[event.target.name]) {
+    useEffect(() => {
+        if (Object.keys(errors).length === 0 && isSubmitting) {
+            callback();
+        }
+    }, [errors]);
 
-      setErrors({ [event.target.name]: " " });
-    }
-  };
+    const handleSubmit = event => {
+        if (event) event.preventDefault();
+        setErrors(validate(values));
+        setIsSubmitting(true);
+    };
+    const hasError = field => formState.errors[field] ? true : false;
+    const handleChange = event => {
+        event.persist();
+        setValues(values => ({
+            ...values,
+            [event.target.name]: event.target.value
+        }));
+        if (errors[event.target.name]) {
 
-  return {
-    handleChange,
-    handleSubmit,
-    values,
-    errors
-  };
+            setErrors({
+                [event.target.name]: " " });
+        }
+    };
+
+    return {
+        handleChange,
+        handleSubmit,
+        values,
+        errors
+    };
 };
 
 export default useForm;
