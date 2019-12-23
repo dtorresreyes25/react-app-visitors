@@ -5,6 +5,7 @@ import moment from 'moment';
 import { makeStyles } from '@material-ui/styles';
 import {
     Card,
+    CardHeader,
     CardActions,
     CardContent,
     Avatar,
@@ -49,9 +50,6 @@ const AccountProfile = props => {
 
     const { email, name, public_id, avatar, token } = props.userSession.authSession;
 
-    //const { email, name, public_id, avatar } = { email: 'dtorres@ictsa.cu', name: 'dayron', public_id: '12345', avatar: 'http://localhost' }
-
-
 
     const { className, ...rest } = props;
 
@@ -91,9 +89,14 @@ const AccountProfile = props => {
 
     return (
         <Card
-      {...rest}
+      //{...rest}
       className={clsx(classes.root, className)}
     >
+    <CardHeader
+          subheader="Edite su foto de perfil"
+          title="Avatar"
+        />
+        <Divider />
       <CardContent>
         <div className={classes.details}>
           <div>

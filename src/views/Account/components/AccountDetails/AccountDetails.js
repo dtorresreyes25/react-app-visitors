@@ -82,7 +82,7 @@ const AccountDetails = props => {
     return ( <
         >
         <Card
-      {...rest}
+      //{...rest}
       className={clsx( className)}
     >
       <form
@@ -106,7 +106,7 @@ const AccountDetails = props => {
             >
               <TextField
                 fullWidth
-                required="true"
+                required
                 label="Nombre"
                 margin="dense"
                 name="nombre"
@@ -134,7 +134,6 @@ const AccountDetails = props => {
                 error={hasError('email')}
                 value={formState.values.email}
                 variant="outlined"
-                required="true"
                 helperText={
                     hasError('email') ? formState.errors.email[0] : null
                   }

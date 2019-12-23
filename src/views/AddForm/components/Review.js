@@ -98,6 +98,9 @@ export default function Review({
 
     return (
         <React.Fragment>
+        <Typography variant="h4" gutterBottom styles={{marginBottom:'20px'}}>
+        Resumen
+      </Typography>
       <Grid container spacing={2}>
         <Grid item container direction="column" xs={12} sm={12}>
           <Typography variant="h5" gutterBottom className={classes.title}>

@@ -20,7 +20,7 @@ const RouteWithLayout = props => {
                               (<Layout userSession={auth} >
                                 <Component {...matchProps}  userSession={auth} />
                               </Layout>)
-                             : <Redirect to="/sign-in" />
+                             : <Redirect to="/autenticar" />
           : publicRoute
                    ? rest.restricted ? (
                                           auth.authSession ? <Redirect to="/" />
@@ -37,7 +37,7 @@ const RouteWithLayout = props => {
                                           </Layout>
                                         )
                    : (
-                       <Redirect to="/sign-in" />
+                       <Redirect to="/autenticar" />
                       )
        
           

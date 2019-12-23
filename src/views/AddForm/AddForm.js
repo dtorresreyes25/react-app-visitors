@@ -25,20 +25,20 @@ const formStyles = makeStyles(theme => ({
     },
     layout: {
         width: "auto",
-        marginLeft: theme.spacing(2),
+        marginLeft: theme.spacing(1),
         marginRight: theme.spacing(2),
         [theme.breakpoints.up(600 + theme.spacing(2) * 2)]: {
-            width: 600,
+            width: 800,
             marginLeft: "auto",
             marginRight: "auto"
         }
     },
     paper: {
-        marginTop: theme.spacing(3),
+        marginTop: theme.spacing(0),
         marginBottom: theme.spacing(3),
         padding: theme.spacing(2),
         [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
-            marginTop: theme.spacing(6),
+            marginTop: theme.spacing(0),
             marginBottom: theme.spacing(6),
             padding: theme.spacing(3)
         }
@@ -163,11 +163,7 @@ export default function AddForm({ userSession }) {
         schema, {}
     );
 
-    console.log('formState-errors', formState.errors)
-    console.log('formState-values', formState.values)
-
     function handleFormStepCompletation() {
-
 
         const dataToSubmit = {
             nombre: formState.values.firstName,
@@ -177,19 +173,13 @@ export default function AddForm({ userSession }) {
             visitado: formState.values.visitedPlace,
             fecha: formState.values.visitDate,
             motivo: formState.values.visitReason,
-            vehiculo: {
-                tipo: formState.values.vehicleType,
-                marca: formState.values.vehicleBrand,
-                color: formState.values.vehicleColor,
-                chapa: formState.values.vehicleLicencePlate,
-            }
-
+            vehiculo_tipo: formState.values.vehicleType,
+            vehiculo_marca: formState.values.vehicleBrand,
+            vehiculo_color: formState.values.vehicleColor,
+            vehiculo_chapa: formState.values.vehicleLicencePlate
         }
 
-        console.log(dataToSubmit)
-
         if (activeStep === 2) {
-            console.log('form is submitting....')
 
             fetch('https://api.ict.cu/visitors/api/v1/visitors', {
                     method: "post",
@@ -202,7 +192,6 @@ export default function AddForm({ userSession }) {
                 })
                 .then(response => response.json())
                 .then(insertedId => {
-                    console.log(insertedId["_id"])
                     if (insertedId["_id"]) setIsFormSubmited(true)
                 })
                 .catch(err => console.log(err))
@@ -265,7 +254,7 @@ export default function AddForm({ userSession }) {
 
       <main className={classes.layout}>
         <Paper className={classes.paper}>
-          <Typography component="h1" variant="h4" align="center">
+          <Typography component="h1" variant="h2" align="center">
             Nuevo Visitante
           </Typography>
           <Stepper activeStep={activeStep} className={classes.stepper}>
@@ -283,7 +272,7 @@ export default function AddForm({ userSession }) {
                 </Typography>
                 <Typography variant="subtitle1">
                   {"Si desea registrar un nuevo visitante haga click "}
-                  <Link href="/visitor-add" className={classes.link}>
+                  <Link href="/visitas/añadir" className={classes.link}>
                     Aquí
                   </Link>
                 </Typography>
@@ -322,5 +311,5 @@ export default function AddForm({ userSession }) {
         </Paper>
       </main>
     </React.Fragment>
-    );
+  )
 }
