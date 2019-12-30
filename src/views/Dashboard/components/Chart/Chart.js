@@ -9,7 +9,7 @@ import {
   YAxis,
   Label,
   Tooltip,
-  linearGradient, 
+  linearGradient,
   Legend,
   CartesianGrid,
   ResponsiveContainer
@@ -27,7 +27,6 @@ import filter from "lodash/filter";
 function createData(time, visitas) {
   return { time, visitas };
 }
-
 
 export default function Chart({ visits }) {
   const theme = useTheme();
@@ -74,8 +73,6 @@ export default function Chart({ visits }) {
     return createData(format(new Date(todayDutyHour), "h:mm a"), count);
   });
 
-  console.log(dataToDisplay);
-
   return (
     <React.Fragment>
       <Typography variant="h4" gutterBottom styles={{ marginBottom: 20 }}>
@@ -84,7 +81,6 @@ export default function Chart({ visits }) {
       <ResponsiveContainer>
         <LineChart
           data={dataToDisplay}
-         
           margin={{
             top: 16,
             right: 16,
@@ -102,15 +98,14 @@ export default function Chart({ visits }) {
               Visitas
             </Label>
           </YAxis>
-             <CartesianGrid strokeDasharray="3 3"/>
-       <Tooltip/>
-       <Legend />
+          <CartesianGrid strokeDasharray="3 3" />
+          <Tooltip />
+          <Legend />
           <Line
             type="monotone"
             dataKey="visitas"
             stroke={theme.palette.primary.main}
             dot={true}
-             
           />
         </LineChart>
       </ResponsiveContainer>

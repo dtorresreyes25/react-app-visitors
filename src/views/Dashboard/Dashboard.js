@@ -4,16 +4,11 @@ import { Grid } from "@material-ui/core";
 import Paper from "@material-ui/core/Paper";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import clsx from "clsx";
-import { connect } from "react-redux";
-import { requestVisits } from "../../redux/actions";
+
+
 import CircularProgress from "@material-ui/core/CircularProgress";
 
-import {
- Chart,
- LastVisits,
- VisitsTotalCount
-} from "./components";
-
+import { Chart, LastVisits, VisitsTotalCount } from "./components";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -40,19 +35,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const mapStateToProps = state => {
-  return {
-    isPending: state.isPending,
-    visits: state.visits,
-    error: state.error
-  };
-};
 
-const mapDispatchToProps = dispatch => {
-  return {
-    onRequestVisits: token => dispatch(requestVisits(token))
-  };
-};
 
 const Dashboard = props => {
   const classes = useStyles();
@@ -71,17 +54,23 @@ const Dashboard = props => {
     <React.Fragment>
       <Grid container spacing={3} className={classes.container}>
         <Grid item xs={12} md={8} lg={9}>
-          <Paper className={fixedHeightPaper}>{<Chart visits={visits} />}</Paper>
+          <Paper className={fixedHeightPaper}>
+            {<Chart visits={visits} />}
+          </Paper>
         </Grid>
         <Grid item xs={12} md={4} lg={3}>
-          <Paper className={fixedHeightPaper}>{<VisitsTotalCount visits={visits} />}</Paper>
+          <Paper className={fixedHeightPaper}>
+            {<VisitsTotalCount visits={visits} />}
+          </Paper>
         </Grid>
         <Grid item xs={12}>
-          <Paper className={classes.paper}>{<LastVisits visits={visits} />}</Paper>
+          <Paper className={classes.paper}>
+            {<LastVisits visits={visits} />}
+          </Paper>
         </Grid>
       </Grid>
     </React.Fragment>
   );
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
+export default Dashboard;

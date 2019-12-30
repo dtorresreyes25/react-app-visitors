@@ -84,9 +84,11 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const VisitorsTable = props => {
-  const { className, visitors, setVisitors, isLoading, ...rest } = props;
+  const { className, visitors, setVisitors, isLoading, onUpdateVisits, ...rest } = props;
 
   const classes = useStyles();
+
+  console.log(rest.isVisitUpdated)
 
   return (
     <React.Fragment>
@@ -170,11 +172,13 @@ const VisitorsTable = props => {
               setTimeout(() => {
                 resolve();
                 if (oldData) {
-                  setVisitors(prevState => {
-                    const data = [...prevState.data];
-                    data[data.indexOf(oldData)] = newData;
-                    return { ...prevState, data };
-                  });
+                  onUpdateVisits(newData)
+                  // setVisitors(prevState => {
+                  //   const data = [...prevState.data];
+                  //   data[data.indexOf(oldData)] = newData;
+                  //   console.log(newData)
+                  //   return { ...prevState, data };
+                 // });
                 }
               }, 600);
             }),

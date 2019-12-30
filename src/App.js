@@ -12,10 +12,17 @@ import "./assets/scss/index.scss";
 import validators from "./common/validators";
 import Routes from "./routes";
 import { Provider } from 'react-redux'
-import { createStore, applyMiddleware } from 'redux'
+import { createStore, applyMiddleware, compose  } from 'redux'
 import thunkMiddleware from 'redux-thunk'
-import {requestVisits} from './redux/reducer'
+import {visitsReducer} from './store'
 import {createLogger} from 'redux-logger'
+
+import { composeWithDevTools } from 'redux-devtools-extension';
+
+// const store = createStore(visitsReducer, composeWithDevTools(
+//   applyMiddleware(thunkMiddleware),
+//   // other store enhancers if any
+// ));
 
 const browserHistory = createBrowserHistory();
 
@@ -28,7 +35,21 @@ validate.validators = {
   ...validators
 };
 const logger = createLogger()
-const store = createStore(requestVisits, applyMiddleware(thunkMiddleware,logger))
+const store = createStore(visitsReducer, applyMiddleware(thunkMiddleware,logger))
+
+// const enhancers = compose(
+//   window.devToolsExtension ? window.devToolsExtension() : f => f
+// );
+// const store = createStore(visitsReducer, enhancers);
+
+// const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+
+//  const store = createStore(visitsReducer, /* preloadedState, */ composeEnhancers(
+//     applyMiddleware(thunkMiddleware)
+//   ));
+
+
 
 export default class App extends Component {
   render() {

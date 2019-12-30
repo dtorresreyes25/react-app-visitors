@@ -22,6 +22,7 @@ export default function LastVisits({ visits }) {
 
   const lastSixVisits = orderBy(visits, ["fecha"], ["desc"]).slice(0, 6);
 
+
   return (
     <React.Fragment>
       <Typography variant="h4" gutterBottom>
