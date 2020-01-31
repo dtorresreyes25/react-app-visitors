@@ -66,7 +66,7 @@ const useStyles = makeStyles(theme => ({
 
 const Sidebar = props => {
 
-    const { open, variant, onClose, className, userSession, ...rest } = props;
+    const { open, onClose, userSession } = props;
 
 
     const classes = useStyles();

@@ -2,18 +2,18 @@ import React from "react";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
+
+
 import {
   DateTimePicker,
-  MuiPickersUtilsProvider,
-  KeyboardDatePicker,
-  KeyboardTimePicker
+
+
+
 } from "@material-ui/pickers";
-import esLocale from "date-fns/locale/es/index";
-import DateFnsUtils from "@date-io/date-fns";
-import { Face, Fingerprint } from "@material-ui/icons";
-import InputLabel from "@material-ui/core/InputLabel";
+
+
+import { Face } from "@material-ui/icons";
+
 
 import InputAdornment from "@material-ui/core/InputAdornment";
 import DateRangeIcon from "@material-ui/icons/DateRange";

@@ -13,7 +13,7 @@ const RouteWithLayout = props => {
     <>
     <Route
       {...rest}
-
+      
       render={matchProps =>
            
       privateRoute ? auth.authSession ? 

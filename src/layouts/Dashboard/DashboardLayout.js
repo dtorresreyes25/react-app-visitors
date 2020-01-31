@@ -1,34 +1,19 @@
-import React, { useState } from "react";
-import clsx from "clsx";
+import React from "react";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import Drawer from "@material-ui/core/Drawer";
 import Box from "@material-ui/core/Box";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import List from "@material-ui/core/List";
-import Typography from "@material-ui/core/Typography";
-import Divider from "@material-ui/core/Divider";
-
-import Badge from "@material-ui/core/Badge";
 import Container from "@material-ui/core/Container";
-import Grid from "@material-ui/core/Grid";
-import Paper from "@material-ui/core/Paper";
-import Link from "@material-ui/core/Link";
-import MenuIcon from "@material-ui/icons/Menu";
+import { ToastContainerHelper } from '../../helpers/'
 
-import NotificationsIcon from "@material-ui/icons/Notifications";
 
-//import { mainListItems, secondaryListItems } from "./listItems";
 
 import { Sidebar, Topbar, Footer } from "./components";
 import { makeStyles, useTheme } from "@material-ui/styles";
 import { useMediaQuery } from "@material-ui/core";
 
 import Idle from "react-idle-enhanced";
-import { toast } from "react-toastify";
 import { LockScreen } from "../../components";
 
-const drawerWidth = 240;
+
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -67,7 +52,6 @@ export default function Dashboard(props) {
     setOpen(false);
   };
 
-  const shouldOpenSidebar = isDesktop ? true : open;
 
   const { children, userSession } = props;
 
@@ -95,7 +79,7 @@ export default function Dashboard(props) {
             )}
           />
           {children}
-
+          <ToastContainerHelper/>
           <Box pt={4}>
             <Footer />
           </Box>

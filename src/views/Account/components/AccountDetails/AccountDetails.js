@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/styles';
 import {
     Card,
     CardHeader,
@@ -17,13 +16,6 @@ import { toast } from 'react-toastify';
 import useForm from '../../../../helpers/useForm.js'
 import AccountPassword from './components'
 
-
-
-const useStyles = makeStyles((theme) => ({
-    root: {
-        marginTop: theme.spacing(4)
-    }
-}));
 
 const schema = {
     email: {
@@ -46,11 +38,9 @@ const schema = {
 
 const AccountDetails = props => {
 
-    const { className, ...rest } = props;
+    const { className } = props;
 
-    const { email, name, public_id, avatar, token } = props.userSession.authSession;
-
-    const classes = useStyles();
+    const { email, name} = props.userSession.authSession;
 
     const default_values = {
         nombre: name,

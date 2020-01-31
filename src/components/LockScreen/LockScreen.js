@@ -3,21 +3,21 @@ import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 
 import {
-    DialogActions,
+
     DialogContent,
-    DialogContentText,
+
     DialogTitle,
     withMobileDialog
 } from "@material-ui/core";
 import Dialog from "@material-ui/core/Dialog";
 import {
-    Paper,
-    withStyles,
-    Grid,
-    FormControlLabel,
-    Checkbox
+
+
+    Grid
+
+
 } from "@material-ui/core";
-import { Face, Fingerprint } from "@material-ui/icons";
+import {  Fingerprint } from "@material-ui/icons";
 import { makeStyles } from "@material-ui/styles";
 import { Avatar, Typography } from "@material-ui/core";
 import { deepPurple } from "@material-ui/core/colors";
@@ -65,23 +65,26 @@ const LockScreen = props => {
     const {
         hasError,
         handleChange,
-        handleBlur,
         handleSubmit,
         formState
     } = useForm(handleUnlock, schema, null);
 
-    const { className, userSession, signIn, history, open, ...rest } = props;
+    const {  userSession, open } = props;
 
     const [openDialog, setOpenDialog] = useState(false);
 
     const classes = useStyles();
 
-    const { email, name, public_id, avatar, token } = userSession.authSession;
+    const { email, name, avatar, token } = userSession.authSession;
 
     function handleUnlock() {
+
         const isUnlocked = userSession.signIn(email, formState.values.password);
 
+        console.log("[isUnlocked]", isUnlocked)
+
         isUnlocked.then(r => {
+            console.log("[r]", r)
             if (r) {
                 setOpenDialog(false);
             } else {
@@ -91,6 +94,7 @@ const LockScreen = props => {
     }
 
     useEffect(() => {
+         console.log("[open (useEffect)]", open)
         if (open) {
             setOpenDialog(true);
         }

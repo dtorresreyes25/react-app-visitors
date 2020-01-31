@@ -1,21 +1,7 @@
 import React from "react";
 import Typography from "@material-ui/core/Typography";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
-import Chip from "@material-ui/core/Chip";
-import EditIcon from "@material-ui/icons/Edit";
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
-import {
-    DateTimePicker,
-    MuiPickersUtilsProvider,
-    KeyboardDatePicker,
-    KeyboardTimePicker
-} from "@material-ui/pickers";
-
 import { format } from 'date-fns'
 import { es } from 'date-fns/locale'
 import Divider from '@material-ui/core/Divider';

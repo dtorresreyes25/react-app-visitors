@@ -36,7 +36,7 @@ const useForm = (callback, schema, default_values) => {
         if (Object.keys(formState.errors).length === 0 && isSubmitting) {
             callback();
         }
-    }, [formState.errors, isSubmitting]);
+    }, [formState.errors, isSubmitting, callback]);
 
     const handleSubmit = event => {
         if (event) event.preventDefault();

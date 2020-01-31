@@ -1,8 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { makeStyles } from "@material-ui/styles";
-import { format } from "date-fns";
-import { es } from "date-fns/locale";
-import orderBy from "lodash/orderBy";
+
+import { toast } from "react-toastify";
+import {
+    requestVisits,
+    saveVisits,
+    cloneVisit,
+    addVisits,
+    removeVisits
+} from "../../store/";
+import { connect } from "react-redux";
 
 import { VisitorsTable } from "./components";
 
@@ -15,82 +22,97 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
+const mapStateToProps = state => {
+    return {
+        isPending: state.isPending,
+        visits: state.visits,
+        isSaving: state.isSaving,
+        isVisitRemoved: state.isVisitRemoved,
+        isVisitUpdated: state.isVisitUpdated,
+        isVisitAdded: state.isVisitAdded,
+        isVisitCloned: state.isVisitCloned,
+        savedVisitId: state.savedVisitId,
+        errorOnSave: state.errorOnSave
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        onRequestVisits: token => dispatch(requestVisits(token)),
+        onUpdateVisits: (token, visits) => dispatch(saveVisits(token, visits)),
+        onCloneVisit: (token,visit)=>dispatch(cloneVisit(token,visit)),
+        onAddNewVisit: (token, visits) => dispatch(addVisits(token, visits)),
+        onRemoveVisit: (token, visitId) =>
+            dispatch(removeVisits(token, visitId))
+    };
+};
+
 const VisitorList = props => {
     const classes = useStyles();
     const {
         isPending,
         visits,
-        error,
-        token,
         isUpdatingVisit,
         isVisitUpdated,
-        errorOnUpdate,
         onRequestVisits,
         onUpdateVisits,
-        userSession
+        userSession,
+        onRemoveVisit,
+        onCloneVisit,
+        isVisitCloned,
+        isVisitRemoved,
     } = props;
 
-    const [visitors, setVisitors] = useState({
-        columns: [
-            { title: "Nombre", field: "nombre" },
-            { title: "Apellidos", field: "apellidos" },
-            { title: "C.I/Pasaporte", field: "carnet" },
-            {
-                title: "Fecha",
-                field: "fecha",
-                type: "datetime",
-                render: rowData =>
-                    format(new Date(rowData.fecha), "dd MMM yyyy hh: mm a ", {
-                        locale: es
-                    })
-            },
-            { title: "Lugar visitado", field: "visitado" },
-            { title: "Motivo", field: "motivo" },
-            { title: "Organismo", field: "organismo" },
-            { title: "Chapa", field: "vehiculo_chapa" },
-            { title: "Color", field: "vehiculo_color" },
-            { title: "Marca", field: "vehiculo_marca" },
-            { title: "Tipo", field: "vehiculo_tipo" }
-        ],
-        data: []
-    });
+    const token = userSession.authSession.token;
 
-    const modifyIdFromVisits = visits => {
-        const newVisits = [];
-        visits.forEach(visit => {
-            newVisits.push({ ...visit, _id: visit["_id"]["$oid"] });
-        });
 
-        return newVisits;
+    const refreshList = () => {
+        return onRequestVisits(token);
     };
+
+    if (isVisitCloned) {
+        toast.success("Se ha duplicado correctamente la visita", 3);
+        refreshList();
+    }
+
+    if (isVisitRemoved) {
+        toast.success("Se ha eliminado correctamente la visita", 1);
+        refreshList();
+    }
+
+    if (isVisitUpdated) {
+        toast.success("Se ha actualizado correctamente la visita", 2);
+        refreshList();
+    }
+
 
     useEffect(() => {
-        console.log("effect");
-        onRequestVisits(userSession.authSession.token);
-        if (visits) {
-            const Visits = modifyIdFromVisits(visits);
-            const orderVisitsByDate = orderBy(Visits, ["fecha"], ["desc"]);
-            setVisitors({ ...visitors, data: orderVisitsByDate });
-        }
-    }, []);
+        onRequestVisits(token);
+    }, [onRequestVisits]);
 
     const saveEditedItem = item => {
-        onUpdateVisits(item, userSession.authSession.token);
-        onRequestVisits(userSession.authSession.token)
+        onUpdateVisits(token, item);
     };
 
-    console.log(isVisitUpdated)
+    const onCloneSelectedVisit = item => {
+        onCloneVisit(token, item);
+    };
+
+    const removeItem = itemId => {
+        onRemoveVisit(token, itemId);
+    };
 
     return (
         <div className={classes.root}>
             <VisitorsTable
-                visitors={visitors}
-                setVisitors={setVisitors}
+                visitors={visits}
                 isLoading={isPending || isUpdatingVisit}
                 onUpdateVisits={saveEditedItem}
+                onCloneSelectedVisit={onCloneSelectedVisit}
+                onRemoveVisit={removeItem}
             />
         </div>
     );
 };
 
-export default VisitorList;
+export default connect(mapStateToProps, mapDispatchToProps)(VisitorList);

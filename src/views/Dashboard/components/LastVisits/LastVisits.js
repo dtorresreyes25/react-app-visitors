@@ -22,43 +22,48 @@ export default function LastVisits({ visits }) {
 
   const lastSixVisits = orderBy(visits, ["fecha"], ["desc"]).slice(0, 6);
 
-
   return (
     <React.Fragment>
       <Typography variant="h4" gutterBottom>
         Visitas Recientes
       </Typography>
-      <Table size="small">
-        <TableHead>
-          <TableRow>
-            <TableCell>Nombre</TableCell>
-            <TableCell>Apellidos</TableCell>
-            <TableCell>Carnet</TableCell>
-            <TableCell>Fecha</TableCell>
-            <TableCell>Lugar Visitado</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {lastSixVisits.map((row, index) => (
-            <TableRow key={index}>
-              <TableCell>{row.nombre}</TableCell>
-              <TableCell>{row.apellidos}</TableCell>
-              <TableCell>{row.carnet}</TableCell>
-              <TableCell>
-                {format(new Date(row.fecha), "dd MMM yyyy hh: mm a ", {
-                  locale: es
-                })}
-              </TableCell>
-              <TableCell>{row.visitado}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-      <div className={classes.seeMore}>
-        <Link color="primary" href="/visitas">
-          ver más visitas
-        </Link>
-      </div>
+      {visits.length > 0 ? (
+        <React.Fragment>
+          <Table size="small">
+            <TableHead>
+              <TableRow>
+                <TableCell>Nombre</TableCell>
+                <TableCell>Apellidos</TableCell>
+                <TableCell>Carnet</TableCell>
+                <TableCell>Fecha</TableCell>
+                <TableCell>Lugar Visitado</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {lastSixVisits.map((row, index) => (
+                <TableRow key={index}>
+                  <TableCell>{row.nombre}</TableCell>
+                  <TableCell>{row.apellidos}</TableCell>
+                  <TableCell>{row.carnet}</TableCell>
+                  <TableCell>
+                    {format(new Date(row.fecha), "dd MMM yyyy hh: mm a ", {
+                      locale: es
+                    })}
+                  </TableCell>
+                  <TableCell>{row.visitado}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+          <div className={classes.seeMore}>
+            <Link color="primary" href="/visitas">
+              ver más visitas
+            </Link>
+          </div>
+        </React.Fragment>
+      ) : (
+        "no hay visitas registradas aún"
+      )}
     </React.Fragment>
   );
 }

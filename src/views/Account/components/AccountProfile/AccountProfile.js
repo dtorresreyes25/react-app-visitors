@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import moment from 'moment';
 import { makeStyles } from '@material-ui/styles';
 import {
     Card,
@@ -16,7 +15,6 @@ import {
     Chip
 } from '@material-ui/core';
 import PhotoCamera from '@material-ui/icons/PhotoCamera';
-import axios from 'axios';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -48,10 +46,10 @@ const AccountProfile = props => {
 
     const [uploadPercentage, setUploadPercentage] = useState(0);
 
-    const { email, name, public_id, avatar, token } = props.userSession.authSession;
+    const { name, public_id, avatar, token } = props.userSession.authSession;
 
 
-    const { className, ...rest } = props;
+    const { className } = props;
 
     const classes = useStyles();
 

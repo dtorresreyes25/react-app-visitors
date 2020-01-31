@@ -1,28 +1,9 @@
-import React, { useState } from "react";
-import clsx from "clsx";
-import PropTypes from "prop-types";
-import moment from "moment";
-import PerfectScrollbar from "react-perfect-scrollbar";
-import { makeStyles } from "@material-ui/styles";
-import {
-  Card,
-  CardActions,
-  CardContent,
-  Avatar,
-  Checkbox,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-  Typography,
-  TablePagination
-} from "@material-ui/core";
+import React from "react";
+import { format } from "date-fns";
+import { es } from "date-fns/locale";
 import MaterialTable from "material-table";
-import { getInitials } from "helpers";
-
 import { forwardRef } from "react";
-
+import orderBy from "lodash/orderBy";
 import AddBox from "@material-ui/icons/AddBox";
 import ArrowDownward from "@material-ui/icons/ArrowDownward";
 import Check from "@material-ui/icons/Check";
@@ -38,6 +19,7 @@ import Remove from "@material-ui/icons/Remove";
 import SaveAlt from "@material-ui/icons/SaveAlt";
 import Search from "@material-ui/icons/Search";
 import ViewColumn from "@material-ui/icons/ViewColumn";
+import {Typography} from '@material-ui/core'
 
 const tableIcons = {
   Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
@@ -63,32 +45,36 @@ const tableIcons = {
   ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />)
 };
 
-const useStyles = makeStyles(theme => ({
-  root: {},
-  content: {
-    padding: 0
-  },
-  inner: {
-    minWidth: 1050
-  },
-  nameContainer: {
-    display: "flex",
-    alignItems: "center"
-  },
-  avatar: {
-    marginRight: theme.spacing(2)
-  },
-  actions: {
-    justifyContent: "flex-end"
-  }
-}));
 
 const VisitorsTable = props => {
-  const { className, visitors, setVisitors, isLoading, onUpdateVisits, ...rest } = props;
+  const {
+    visitors,
+    isLoading,
+    onUpdateVisits,
+    onCloneSelectedVisit,
+    onRemoveVisit,
+  } = props;
 
-  const classes = useStyles();
+  const modifyIdFromVisits = visits => {
+    const newVisits = [];
+    if (visits) {
+      visits.forEach(visit => {
+        newVisits.push({ ...visit, _id: visit["_id"]["$oid"] });
+      });
+    }
 
-  console.log(rest.isVisitUpdated)
+    return newVisits;
+  };
+
+  const removeIdPropFromVisitObj = visit => {
+    if (visit) {
+      delete visit._id;
+      return visit;
+    }
+  };
+
+  const Visits = modifyIdFromVisits(visitors);
+  const orderVisitsByDate = orderBy(Visits, ["fecha"], ["desc"]);
 
   return (
     <React.Fragment>
@@ -105,7 +91,7 @@ const VisitorsTable = props => {
         options={{
           search: true,
           pageSize: 10,
-          selection: true,
+          selection: false,
           grouping: false,
           searchFieldAlignment: "left",
           headerStyle: {
@@ -113,13 +99,6 @@ const VisitorsTable = props => {
             color: "#FFF"
           }
         }}
-        actions={[
-          {
-            tooltip: 'Remove All Selected Users',
-            icon: 'delete',
-            onClick: (evt, data) => alert('You want to delete ' + data.length + ' rows')
-          }
-        ]}
         localization={{
           body: {
             emptyDataSourceMessage: "Aún no hay visitantes registrados",
@@ -151,10 +130,40 @@ const VisitorsTable = props => {
             placeholder: "Arrastre los encabezados aquí para agrupar campos"
           }
         }}
+        actions={[
+          {
+            icon: tableIcons.Add,
+            tooltip: "Duplicar visita",
+            onClick: (event, rowData) => {
+              const cloneVisitWithoutId = removeIdPropFromVisitObj(rowData);
+              onCloneSelectedVisit(cloneVisitWithoutId);
+            }
+          }
+        ]}
         isLoading={isLoading}
         icons={tableIcons}
-        columns={visitors.columns}
-        data={visitors.data}
+        columns={[
+          { title: "Nombre", field: "nombre" },
+          { title: "Apellidos", field: "apellidos" },
+          { title: "C.I/Pasaporte", field: "carnet" },
+          {
+            title: "Fecha",
+            field: "fecha",
+            type: "datetime",
+            render: rowData =>
+              format(new Date(rowData.fecha), "dd MMM yyyy hh: mm a ", {
+                locale: es
+              })
+          },
+          { title: "Lugar visitado", field: "visitado" },
+          { title: "Motivo", field: "motivo" },
+          { title: "Organismo", field: "organismo" },
+          { title: "Tipo", field: "vehiculo_tipo" },
+          { title: "Chapa", field: "vehiculo_chapa" },
+          { title: "Color", field: "vehiculo_color" },
+          { title: "Marca", field: "vehiculo_marca" }
+        ]}
+        data={orderVisitsByDate}
         editable={{
           // onRowAdd: newData =>
           //   new Promise(resolve => {
@@ -172,13 +181,7 @@ const VisitorsTable = props => {
               setTimeout(() => {
                 resolve();
                 if (oldData) {
-                  onUpdateVisits(newData)
-                  // setVisitors(prevState => {
-                  //   const data = [...prevState.data];
-                  //   data[data.indexOf(oldData)] = newData;
-                  //   console.log(newData)
-                  //   return { ...prevState, data };
-                 // });
+                  onUpdateVisits(newData);
                 }
               }, 600);
             }),
@@ -186,22 +189,13 @@ const VisitorsTable = props => {
             new Promise(resolve => {
               setTimeout(() => {
                 resolve();
-                setVisitors(prevState => {
-                  const data = [...prevState.data];
-                  data.splice(data.indexOf(oldData), 1);
-                  return { ...prevState, data };
-                });
+                onRemoveVisit(oldData._id);
               }, 600);
             })
         }}
       />
     </React.Fragment>
   );
-};
-
-VisitorsTable.propTypes = {
-  className: PropTypes.string,
-  visitors: PropTypes.object.isRequired
 };
 
 export default VisitorsTable;

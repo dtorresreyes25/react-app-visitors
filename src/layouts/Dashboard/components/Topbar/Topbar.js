@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link as RouterLink } from "react-router-dom";
 import clsx from "clsx";
 import PropTypes from "prop-types";
@@ -6,14 +6,14 @@ import { makeStyles } from "@material-ui/styles";
 import {
   AppBar,
   Toolbar,
-  Badge,
+  
   Hidden,
   IconButton,
   Typography,
-  Box
+
 } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
-import NotificationsIcon from "@material-ui/icons/NotificationsOutlined";
+
 import InputIcon from "@material-ui/icons/Input";
 import { Avatar } from "@material-ui/core";
 import { deepPurple } from "@material-ui/core/colors";
@@ -60,7 +60,6 @@ const useStyles = makeStyles(theme => ({
   avatarText: {
     display: "flex",
     paddingRight: 0,
-    display: "inline-block",
     color: "#fff",
     verticalAlign: "top"
   },
@@ -90,13 +89,12 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Topbar = props => {
-  const { open, className, onSidebarOpen, userSession, ...rest } = props;
+  const { open, onSidebarOpen, userSession} = props;
 
   const { avatar, token, name } = userSession.authSession;
 
   const classes = useStyles();
 
-  const [notifications] = useState([]);
 
   return (
     <AppBar

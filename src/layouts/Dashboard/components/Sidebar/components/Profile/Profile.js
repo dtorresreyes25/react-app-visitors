@@ -35,7 +35,6 @@ const Profile = props => {
   const {
     email,
     name,
-    public_id,
     avatar,
     token
   } = props.userSession.authSession;

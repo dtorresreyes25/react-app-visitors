@@ -11,13 +11,28 @@ import PersonalForm from "./components/PersonalForm";
 import VehicleForm from "./components/VehicleForm";
 import Review from "./components/Review";
 import { makeStyles } from "@material-ui/core/styles";
-import {
-    MuiPickersUtilsProvider,
-} from "@material-ui/pickers";
+import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import esLocale from "date-fns/locale/es/index";
 import DateFnsUtils from "@date-io/date-fns";
-
+import { addVisits } from "../../store/";
+import { connect } from "react-redux";
 import { useForm } from "../../helpers";
+
+const mapStateToProps = state => {
+    return {
+        isAddingVisit: state.isAddingVisit,
+        errorOnAdd: state.errorOnAdd,
+        isVisitAdded: state.isVisitAdded
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        onAddNewVisit: (token, visits) => dispatch(addVisits(token, visits))
+    };
+};
+
+
 
 const formStyles = makeStyles(theme => ({
     appBar: {
@@ -71,10 +86,7 @@ const formStyles = makeStyles(theme => ({
     }
 }));
 
-const steps = ["Datos personales", "Vehículo", "Resumen"];
-
-export default function AddForm({ userSession }) {
-    const schema = {
+const schema = {
         firstName: {
             presence: {
                 allowEmpty: false,
@@ -110,7 +122,8 @@ export default function AddForm({ userSession }) {
         visitedPlace: {
             presence: {
                 allowEmpty: false,
-                message: "^Debe registrar el lugar de la visita antes de guardar."
+                message:
+                    "^Debe registrar el lugar de la visita antes de guardar."
             },
             length: {
                 maximum: 128
@@ -119,13 +132,15 @@ export default function AddForm({ userSession }) {
         visitDate: {
             presence: {
                 allowEmpty: false,
-                message: "^Debe registrar la fecha de la visita antes de guardar."
+                message:
+                    "^Debe registrar la fecha de la visita antes de guardar."
             }
         },
         visitReason: {
             presence: {
                 allowEmpty: false,
-                message: "^Debe registrar el motivo de la visita antes de guardar."
+                message:
+                    "^Debe registrar el motivo de la visita antes de guardar."
             },
             length: {
                 maximum: 128
@@ -153,6 +168,12 @@ export default function AddForm({ userSession }) {
         }
     };
 
+const AddForm = ({
+    userSession,
+    onAddNewVisit,
+    isAddingVisit,
+    isVisitAdded
+}) => {
     const classes = formStyles();
 
     const [activeStep, setActiveStep] = React.useState(0);
@@ -160,11 +181,46 @@ export default function AddForm({ userSession }) {
 
     const { hasError, handleChange, handleSubmit, formState } = useForm(
         handleFormStepCompletation,
-        schema, {}
+        schema,
+        {}
     );
 
-    function handleFormStepCompletation() {
+    const steps = ["Datos personales", "Vehículo", "Resumen"];
 
+    const getStepContent = step => {
+        switch (step) {
+            case 0:
+                return (
+                    <PersonalForm
+                        
+
+                        formState={formState}
+                        hasError={hasError}
+                        handleChange={handleChange}
+                    />
+                );
+            case 1:
+                return (
+                    <VehicleForm
+                        formState={formState}
+                        hasError={hasError}
+                        handleChange={handleChange}
+                    />
+                );
+            case 2:
+                return (
+                    <Review
+                        formState={formState}
+                        handleChange={handleChange}
+                        hasError={hasError}
+                    />
+                );
+            default:
+                throw new Error("Unknown step");
+        }
+    };
+
+    function handleFormStepCompletation(){
         const dataToSubmit = {
             nombre: formState.values.firstName,
             apellidos: formState.values.lastName,
@@ -173,143 +229,136 @@ export default function AddForm({ userSession }) {
             visitado: formState.values.visitedPlace,
             fecha: formState.values.visitDate,
             motivo: formState.values.visitReason,
-            vehiculo_tipo: formState.values.vehicleType,
-            vehiculo_marca: formState.values.vehicleBrand,
-            vehiculo_color: formState.values.vehicleColor,
-            vehiculo_chapa: formState.values.vehicleLicencePlate
-        }
+            vehiculo_tipo: formState.values.vehicleType || "",
+            vehiculo_marca: formState.values.vehicleBrand || "",
+            vehiculo_color: formState.values.vehicleColor || "",
+            vehiculo_chapa: formState.values.vehicleLicencePlate || ""
+        };
 
         if (activeStep === 2) {
-
-            fetch('https://api.ict.cu/visitors/api/v1/visitors', {
-                    method: "post",
-                    headers: {
-                        'x-access-token': userSession.authSession.token,
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(dataToSubmit)
-
-                })
-                .then(response => response.json())
-                .then(insertedId => {
-                    if (insertedId["_id"]) setIsFormSubmited(true)
-                })
-                .catch(err => console.log(err))
+           
+            return onAddNewVisit(userSession.authSession.token, dataToSubmit);
         }
-
-
-
-    }
-
-    const handleNext = () => {
-
-        handleSubmit()
     };
 
+    function handleNext(){
+        return handleSubmit();
+    };
+
+    function handleBack(){
+        return setActiveStep(activeStep - 1);
+    };
+
+    
 
     React.useEffect(() => {
-
         if (activeStep < 2) {
-            if (Object.keys(formState.errors).length > 0 || Object.keys(formState.values).length === 0) {
-                setActiveStep(activeStep)
+            if (
+                Object.keys(formState.errors).length > 0 ||
+                Object.keys(formState.values).length === 0
+            ) {
+                setActiveStep(activeStep);
             } else {
                 if (activeStep <= steps.length) setActiveStep(activeStep + 1);
             }
         }
+    }, [formState.errors,activeStep,formState.values,formState.errors,steps.length]);
 
-
-    }, [formState.errors])
-
-
-
-    const handleBack = () => {
-
-        setActiveStep(activeStep - 1);
-
-    };
-
-
-
-
-    function getStepContent(step) {
-        switch (step) {
-            case 0:
-                return (
-                    <PersonalForm formState={formState} hasError={hasError} handleChange={handleChange}  />
-                );
-            case 1:
-                return (
-                    <VehicleForm formState={formState} hasError={hasError} handleChange={handleChange} />
-                );
-            case 2:
-                return <Review formState={formState} handleChange={handleChange} hasError={hasError}  />;
-            default:
-                throw new Error("Unknown step");
+    React.useEffect(() => {
+        if (isVisitAdded) {
+           setIsFormSubmited(true)
         }
-    }
+    }, [isVisitAdded]);
+
+    
 
     return (
         <React.Fragment>
-      <CssBaseline />
+            <CssBaseline />
 
-      <main className={classes.layout}>
-        <Paper className={classes.paper}>
-          <Typography component="h1" variant="h2" align="center">
-            Nuevo Visitante
-          </Typography>
-          <Stepper activeStep={activeStep} className={classes.stepper}>
-            {steps.map(label => (
-              <Step key={label}>
-                <StepLabel>{label}</StepLabel>
-              </Step>
-            ))}
-          </Stepper>
-          <React.Fragment>
-            {isFormSubmited ? (
-              <React.Fragment>
-                <Typography variant="h5" gutterBottom>
-                  Se han guardado los datos correctamente.
-                </Typography>
-                <Typography variant="subtitle1">
-                  {"Si desea registrar un nuevo visitante haga click "}
-                  <Link href="/visitas/añadir" className={classes.link}>
-                    Aquí
-                  </Link>
-                </Typography>
-              </React.Fragment>
-            ) : (
-              <React.Fragment>
-              <MuiPickersUtilsProvider utils={DateFnsUtils} locale={esLocale}>
-                {getStepContent(activeStep)}
-               </MuiPickersUtilsProvider>
-               <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-end'}}> 
-                    <div>
-                        <Typography variant="caption">
-                             {activeStep !== 2 ? "Los campos marcados con * son obligatorio rellenarlos." : ""}
-                        </Typography>
-                    </div> 
-                    <div className={classes.buttons}>
-                      {activeStep !== 0 && (
-                        <Button onClick={handleBack} className={classes.button}>
-                          Atrás
-                        </Button>
-                      )}
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={handleNext}
-                        className={classes.button}
+            <main className={classes.layout}>
+                <Paper className={classes.paper}>
+                    <Typography component="h1" variant="h2" align="center">
+                        Nuevo Visitante
+                    </Typography>
+                    <Stepper
+                        activeStep={activeStep}
+                        className={classes.stepper}
+                    >
+                        {steps.map(label => (
+                            <Step key={label}>
+                                <StepLabel>{label}</StepLabel>
+                            </Step>
+                        ))}
+                    </Stepper>
+                    <React.Fragment>
+                        {isFormSubmited ? (
+                            <React.Fragment>
+                                <Typography variant="h5" gutterBottom>
+                                    Se han guardado los datos correctamente.
+                                </Typography>
+                                <Typography variant="subtitle1">
+                                    {
+                                        "Si desea registrar un nuevo visitante haga click "
+                                    }
+                                    <Link
+                                        href="/visitas/añadir"
+                                        className={classes.link}
+                                    >
+                                        Aquí
+                                    </Link>
+                                </Typography>
+                            </React.Fragment>
+                        ) : (
+                            <React.Fragment>
+                                <MuiPickersUtilsProvider
+                                    utils={DateFnsUtils}
+                                    locale={esLocale}
+                                >
+                                    {getStepContent(activeStep)}
+                                </MuiPickersUtilsProvider>
+                                <div
+                                    style={{
+                                        display: "flex",
+                                        justifyContent: "space-between",
+                                        alignItems: "flex-end"
+                                    }}
+                                >
+                                    <div>
+                                        <Typography variant="caption">
+                                            {activeStep !== 2
+                                                ? "Los campos marcados con * son obligatorio rellenarlos."
+                                                : ""}
+                                        </Typography>
+                                    </div>
+                                    <div className={classes.buttons}>
+                                        {activeStep !== 0 && (
+                                            <Button
+                                                onClick={handleBack}
+                                                className={classes.button}
+                                            >
+                                                Atrás
+                                            </Button>
+                                        )}
+                                        <Button
+                                            variant="contained"
+                                            color="primary"
+                                            onClick={handleNext}
+                                            className={classes.button}
+                                        >
+                                            {activeStep === steps.length - 1
+                                                ? "Guardar"
+                                                : "Siguiente"}
+                                        </Button>
+                                    </div>
+                                </div>
+                            </React.Fragment>
+                        )}
+                    </React.Fragment>
+                </Paper>
+            </main>
+        </React.Fragment>
+    );
+};
 
-                      >
-                        {activeStep === steps.length - 1 ? "Guardar" : "Siguiente"}
-                      </Button>
-                    </div>
-                </div>
-              </React.Fragment>
-            )}
-          </React.Fragment>
-        </Paper>
-      </main>
-    </React.Fragment>
-  )
-}
+export default connect(mapStateToProps, mapDispatchToProps)(AddForm);

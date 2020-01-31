@@ -1,29 +1,23 @@
-import React, { useState, useEffect, useContext } from "react";
-import { Link as RouterLink, withRouter } from "react-router-dom";
+import React, { useState} from "react";
+import {  withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 
 import { useAuth } from "../../context/auth";
 
 import useForm from "../../helpers/useForm";
 
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 
 import { makeStyles } from "@material-ui/styles";
-import { withStyles } from "@material-ui/core/styles";
 import {
   Grid,
   Button,
-  IconButton,
   TextField,
-  Link,
   Typography
 } from "@material-ui/core";
-import { Face, Fingerprint } from "@material-ui/icons";
+import { Fingerprint } from "@material-ui/icons";
 import MailOutlineTwoToneIcon from "@material-ui/icons/MailOutlineTwoTone";
-import InputLabel from "@material-ui/core/InputLabel";
 import InputAdornment from "@material-ui/core/InputAdornment";
-import CircularProgress from "@material-ui/core/CircularProgress";
 import { green } from "@material-ui/core/colors";
 
 const schema = {
@@ -49,12 +43,6 @@ const schema = {
     }
   }
 };
-
-const ColorCircularProgress = withStyles({
-  root: {
-    color: "#fff"
-  }
-})(CircularProgress);
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -287,17 +275,7 @@ const SignIn = props => {
           </div>
         </Grid>
       </Grid>
-      <ToastContainer
-        position="top-center"
-        autoClose={1500}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnVisibilityChange
-        draggable
-        pauseOnHover
-      />
+     
     </div>
   );
 };

@@ -2,14 +2,11 @@ import React from "react";
 import { useTheme } from "@material-ui/core/styles";
 import {
   LineChart,
-  defs,
-  Area,
   Line,
   XAxis,
   YAxis,
   Label,
   Tooltip,
-  linearGradient,
   Legend,
   CartesianGrid,
   ResponsiveContainer
@@ -17,10 +14,7 @@ import {
 import Typography from "@material-ui/core/Typography";
 import isAfter from "date-fns/isAfter";
 import { format } from "date-fns";
-import { getTime } from "date-fns";
 import { set, isSameHour } from "date-fns";
-import { setHours } from "date-fns";
-import { es } from "date-fns/locale";
 import filter from "lodash/filter";
 
 // Generate Sales Data
