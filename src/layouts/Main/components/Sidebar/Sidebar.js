@@ -5,13 +5,9 @@ import { makeStyles } from '@material-ui/styles';
 import { Divider, Drawer } from '@material-ui/core';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import PeopleIcon from '@material-ui/icons/People';
-import AccountBoxIcon from '@material-ui/icons/AccountBox';
+
 import SettingsIcon from '@material-ui/icons/Settings';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
-
-
-
-
 
 import { Profile, SidebarNav } from './components';
 
@@ -50,7 +46,7 @@ const Sidebar = props => {
         },
         {
             title: 'Visitantes',
-            href: '/users',
+            href: '/visitors',
             icon: <PeopleIcon />
         },
         {

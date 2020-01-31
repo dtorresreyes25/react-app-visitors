@@ -2,54 +2,80 @@ import React from "react";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
+
+
 import {
-    DateTimePicker,
-    MuiPickersUtilsProvider,
-    KeyboardDatePicker,
-    KeyboardTimePicker
+  DateTimePicker,
+
+
+
 } from "@material-ui/pickers";
-import esLocale from "date-fns/locale/es/index";
-import DateFnsUtils from "@date-io/date-fns";
-import { Face, Fingerprint } from "@material-ui/icons";
+
+
+import { Face } from "@material-ui/icons";
+
+
+import InputAdornment from "@material-ui/core/InputAdornment";
+import DateRangeIcon from "@material-ui/icons/DateRange";
+import FormatSizeIcon from "@material-ui/icons/FormatSize";
+import ChromeReaderModeIcon from "@material-ui/icons/ChromeReaderMode";
+import AccountBalanceIcon from "@material-ui/icons/AccountBalance";
+import DomainIcon from "@material-ui/icons/Domain";
+import ChatBubbleIcon from "@material-ui/icons/ChatBubble";
 
 export default function PersonalForm({
-    formState,
-    handleChange,
-    hasError,
-    setErrorStep
+  formState,
+  handleChange,
+  hasError,
+  setErrorStep
 }) {
-    React.useEffect(() => {
-        if (!formState.values.visitDate)
-            handleChange({
-                target: {
-                    name: "visitDate",
-                    value: new Date()
-                }
-            });
-    }, []);
+  React.useEffect(() => {
+    if (!formState.values.visitDate)
+      handleChange({
+        target: {
+          name: "visitDate",
+          value: new Date()
+        }
+      });
+  }, []);
 
-    return (
-        <React.Fragment>
+  return (
+    <React.Fragment>
+     <Typography variant="h4" gutterBottom styles={{marginBottom:20}}>
+        Datos personales
+      </Typography>
       <Grid container spacing={3}>
         <Grid item xs={12} sm={6}>
           <TextField
-            required
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Face />
+                </InputAdornment>
+              )
+            }}
+            variant="outlined"
             error={hasError("firstName")}
-            helperText={
-              hasError("firstName") ? formState.errors.firstName[0] : null
-            }
-            id="firstName"
-            name="firstName"
-            label="Nombre"
             fullWidth
-            value={formState.values.firstName}
+            helperText={
+              hasError("password") ? formState.errors.firstName[0] : null
+            }
+            placeholder="Nombre"
+            name="firstName"
             onChange={handleChange}
+            value={formState.values.firstName || ""}
           />
         </Grid>
         <Grid item xs={12} sm={6}>
           <TextField
+            variant="outlined"
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <FormatSizeIcon />
+                </InputAdornment>
+              )
+            }}
             required
             error={hasError("lastName")}
             helperText={
@@ -57,37 +83,61 @@ export default function PersonalForm({
             }
             id="lastName"
             name="lastName"
-            label="Apellidos"
+            placeholder="Apellidos"
             fullWidth
-            value={formState.values.lastName}
+            value={formState.values.lastName || ""}
             onChange={handleChange}
           />
         </Grid>
         <Grid item xs={12} sm={6}>
           <TextField
+            variant="outlined"
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <ChromeReaderModeIcon />
+                </InputAdornment>
+              )
+            }}
             required
             error={hasError("ci")}
             helperText={hasError("ci") ? formState.errors.ci[0] : null}
             id="ci"
             name="ci"
-            value={formState.values.ci}
-            label="CI o pasaporte"
+            value={formState.values.ci || ""}
+            placeholder="CI o pasaporte"
             fullWidth
             onChange={handleChange}
           />
         </Grid>
         <Grid item xs={12} sm={6}>
           <TextField
+            variant="outlined"
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <AccountBalanceIcon />
+                </InputAdornment>
+              )
+            }}
             id="organismo"
             name="organismo"
-            value={formState.values.organismo}
-            label="Organismo"
+            value={formState.values.organismo || ""}
+            placeholder="Organismo"
             fullWidth
             onChange={handleChange}
           />
         </Grid>
         <Grid item xs={12} sm={6}>
           <TextField
+            variant="outlined"
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <DomainIcon />
+                </InputAdornment>
+              )
+            }}
             required
             error={hasError("visitedPlace")}
             helperText={
@@ -95,23 +145,32 @@ export default function PersonalForm({
             }
             id="lugarVisitado"
             name="visitedPlace"
-            label="Lugar visitado"
+            placeholder="Lugar visitado"
             fullWidth
             onChange={handleChange}
-            value={formState.values.visitedPlace}
+            value={formState.values.visitedPlace || ""}
           />
         </Grid>
         <Grid item xs={12} sm={6}>
           <DateTimePicker
-            invalidLabel={
+            inputVariant="outlined"
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <DateRangeIcon />
+                </InputAdornment>
+              )
+            }}
+            invalidplaceholder={
               hasError("visitedDate") ? formState.errors.visitDate[0] : null
             }
-            label="Fecha"
+            placeholder="Fecha"
+            variant="outlined"
             format="dd MMM yyyy hh: mm a "
             required
             timeIcon={<face />}
             disableFuture
-            cancelLabel="Cancelar"
+            cancelplaceholder="Cancelar"
             onChange={e =>
               handleChange({
                 target: {
@@ -123,11 +182,19 @@ export default function PersonalForm({
             fullWidth
             name="visitDate"
             autoOk
-            value={formState.values.visitDate}
+            value={formState.values.visitDate || ""}
           />
         </Grid>
         <Grid item xs={12}>
           <TextField
+            variant="outlined"
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <ChatBubbleIcon />
+                </InputAdornment>
+              )
+            }}
             required
             error={hasError("visitReason")}
             helperText={
@@ -135,13 +202,13 @@ export default function PersonalForm({
             }
             id="motivo"
             name="visitReason"
-            label="Motivo de la visita"
+            placeholder="Motivo de la visita"
             fullWidth
             onChange={handleChange}
-            value={formState.values.visitReason}
+            value={formState.values.visitReason || ""}
           />
         </Grid>
       </Grid>
     </React.Fragment>
-    );
+  );
 }

@@ -1,65 +1,91 @@
-import React from 'react';
-import { Switch, Redirect } from 'react-router-dom';
+import React from "react";
+import { Switch, Redirect } from "react-router-dom";
 
+import { RouteWithLayout } from "./components";
+import {
 
-import { RouteWithLayout } from './components';
-import { Main as MainLayout, Minimal as MinimalLayout } from './layouts';
-
+  Minimal as MinimalLayout,
+  Dashboard as DashboardLayout
+} from "./layouts";
 
 import {
   Dashboard as DashboardView,
-  UserList as UserListView,
+  VisitorList as VisitorListView,
   Account as AccountView,
   SignIn as SignInView,
   NotFound as NotFoundView,
-  AddForm as AddFormView
-} from './views';
+  AddForm as NewVisitFormView
+} from "./views";
 
+import { requestVisits, saveVisits, addVisits, removeVisits } from "./store/";
+import { connect } from "react-redux";
 
-const Routes = () => {
+const mapStateToProps = state => {
+  return {
+    isPending: state.isPending,
+    visits: state.visits,
+    error: state.error,
+    isSaving: state.isSaving,
+    isVisitRemoved: state.isVisitRemoved,
+    isVisitUpdated: state.isVisitUpdated,
+    isVisitAdded: state.isVisitAdded,
+    savedVisitId: state.savedVisitId,
+    errorOnSave: state.errorOnSave,
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onRequestVisits: token => dispatch(requestVisits(token)),
+    onUpdateVisits: (token, visits) => dispatch(saveVisits(token, visits)),
+    onAddNewVisit: (token, visits) => dispatch(addVisits(token, visits)),
+    onRemoveVisit: (token, visitId) => dispatch(removeVisits(token, visitId)),
+  };
+};
+
+const Routes = props => {
+  const { isPending,visits,error,onRequestVisits} = props
   return (
-    
     <Switch>
-      <Redirect
-        exact
-        from="/"
-        to="/dashboard"
-
-      />
+      <Redirect exact from="/" to="/resumen" />
       <RouteWithLayout
         component={DashboardView}
         exact
-        layout={MainLayout}
-        path="/dashboard"
+        layout={DashboardLayout}
+        path="/resumen"
         privateRoute
+        isPending={isPending}
+        visits={visits}
+        error={error}
+        onRequestVisits={onRequestVisits}
       />
-       <RouteWithLayout
-        component={AddFormView}
+      <RouteWithLayout
+        component={NewVisitFormView}
         exact
-        layout={MainLayout}
-        path="/visitor-add"
+        layout={DashboardLayout}
+        path="/visitas/añadir"
         privateRoute
       />
       <RouteWithLayout
-        component={UserListView}
+        component={VisitorListView}
         exact
-        layout={MainLayout}
-        path="/users"
+        layout={DashboardLayout}
+        path="/visitas"
         privateRoute
       />
 
       <RouteWithLayout
         component={AccountView}
         exact
-        layout={MainLayout}
-        path="/account"
+        layout={DashboardLayout}
+        path="/cuenta"
         privateRoute
       />
       <RouteWithLayout
         component={SignInView}
         exact
         layout={MinimalLayout}
-        path="/sign-in"
+        path="/autenticar"
         publicRoute
         restricted
       />
@@ -67,12 +93,12 @@ const Routes = () => {
         component={NotFoundView}
         exact
         layout={MinimalLayout}
-        path="/not-found"
+        path="/no-encontrado"
         publicRoute
       />
-      <Redirect to="/not-found" />
+      <Redirect to="/no-encontrado" />
     </Switch>
   );
 };
 
-export default Routes;
+export default connect(mapStateToProps, mapDispatchToProps)(Routes);

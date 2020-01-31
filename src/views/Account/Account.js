@@ -7,7 +7,15 @@ import { AccountProfile, AccountDetails } from './components';
 
 const useStyles = makeStyles(theme => ({
     root: {
-        padding: theme.spacing(4)
+        // padding: theme.spacing(4),
+        width: "auto",
+        marginLeft: theme.spacing(1),
+        marginRight: theme.spacing(2),
+        [theme.breakpoints.up(600 + theme.spacing(2) * 2)]: {
+            width: 800,
+            marginLeft: "auto",
+            marginRight: "auto"
+        }
     }
 }));
 
@@ -23,8 +31,8 @@ const Account = ({ userSession }) => {
         <Grid
           item
           lg={12}
-          md={6}
-          xl={4}
+          md={12}
+          xl={12}
           xs={12}
         >
           <AccountProfile userSession={userSession} />
@@ -32,8 +40,8 @@ const Account = ({ userSession }) => {
         <Grid
           item
           lg={12}
-          md={6}
-          xl={8}
+          md={12}
+          xl={12}
           xs={12}
         >
           <AccountDetails userSession={userSession} />

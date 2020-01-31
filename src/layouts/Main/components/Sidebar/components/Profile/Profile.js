@@ -34,9 +34,8 @@ const Profile = props => {
 
     const { className, userSession, ...rest } = props;
 
-    //const { email, name, public_id, avatar, token } = { email: 'dtorres@ictsa.cu', name: 'dayron', public_id: '12345', avatar: "avatar.jpg", token: userSession.authSession.token }
-
-    const { email, name, public_id, avatar, token } = props.userSession.authSession
+   
+    const { email, name, avatar, token } = props.userSession.authSession
 
     const classes = useStyles();
 

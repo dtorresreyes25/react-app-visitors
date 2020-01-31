@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, useMemo } from "react";
+import React, { createContext, useContext, useState } from "react";
 import * as Cookies from "js-cookie";
 import axios from 'axios';
 
@@ -75,10 +75,8 @@ function useAuthProvider() {
 
         } catch (err) {
             if (err.response.status === 500) {
-                console.log(err)
                 return false
             } else {
-                console.log(err)
                 return false
 
             }
@@ -156,7 +154,6 @@ function useAuthProvider() {
 
             const result = await login
 
-            console.log(result)
 
             if (result.status === 200) {
 

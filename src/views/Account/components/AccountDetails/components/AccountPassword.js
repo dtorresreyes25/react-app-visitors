@@ -1,6 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import clsx from 'clsx';
-import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
 import {
     Card,
@@ -45,9 +44,7 @@ const schema = {
 
 const AccountPassword = props => {
 
-    const { className, ...rest } = props;
-
-    const { password, token } = props.userSession.authSession;
+    const { className } = props;
 
     const classes = useStyles();
 
@@ -91,7 +88,10 @@ const AccountPassword = props => {
     return ( <
         >
         <
-        Card { ...rest } className = { clsx(classes.root, className) } >
+        Card 
+        //{ ...rest } 
+        className = { clsx(classes.root, className) } 
+        >
         <form
         autoComplete="off"
         noValidate
@@ -120,7 +120,7 @@ const AccountPassword = props => {
                 onChange={handleChange}
                 type="password"
                 value={formState.values.contraseña || ''}
-                required="true"
+                required
                 variant="outlined"
                 helperText={
                     hasError('contraseña') ? formState.errors.contraseña[0] : "Cree aquí una contraseña nueva"
@@ -137,7 +137,7 @@ const AccountPassword = props => {
                   label="Confirmar contraseña"
                   inputRef={confPssw}
                   name="confirmación"
-                  required="true"
+                  required
                   error={hasError('confirmación')}
                   onChange={handleChange}
                   type="password"

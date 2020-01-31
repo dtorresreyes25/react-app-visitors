@@ -13,31 +13,31 @@ const RouteWithLayout = props => {
     <>
     <Route
       {...rest}
-
+      
       render={matchProps =>
            
       privateRoute ? auth.authSession ? 
                               (<Layout userSession={auth} >
-                                <Component {...matchProps}  userSession={auth} />
+                                <Component {...matchProps} {...rest}  userSession={auth} />
                               </Layout>)
-                             : <Redirect to="/sign-in" />
+                             : <Redirect to="/autenticar" />
           : publicRoute
                    ? rest.restricted ? (
                                           auth.authSession ? <Redirect to="/" />
                                           
                                                            : (
                                                                 <Layout>
-                                                                    <Component {...matchProps} userSession={auth} />
+                                                                    <Component {...matchProps} {...rest} userSession={auth} />
                                                                 </Layout>
                                                              )
                                        ) 
                                       : (
                                           <Layout>
-                                              <Component {...matchProps} userSession={auth}/>
+                                              <Component {...matchProps} {...rest} userSession={auth}/>
                                           </Layout>
                                         )
                    : (
-                       <Redirect to="/sign-in" />
+                       <Redirect to="/autenticar" />
                       )
        
           

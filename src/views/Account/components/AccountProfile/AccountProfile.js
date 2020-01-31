@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import moment from 'moment';
 import { makeStyles } from '@material-ui/styles';
 import {
     Card,
+    CardHeader,
     CardActions,
     CardContent,
     Avatar,
@@ -15,7 +15,6 @@ import {
     Chip
 } from '@material-ui/core';
 import PhotoCamera from '@material-ui/icons/PhotoCamera';
-import axios from 'axios';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -47,13 +46,10 @@ const AccountProfile = props => {
 
     const [uploadPercentage, setUploadPercentage] = useState(0);
 
-    const { email, name, public_id, avatar, token } = props.userSession.authSession;
-
-    //const { email, name, public_id, avatar } = { email: 'dtorres@ictsa.cu', name: 'dayron', public_id: '12345', avatar: 'http://localhost' }
+    const { name, public_id, avatar, token } = props.userSession.authSession;
 
 
-
-    const { className, ...rest } = props;
+    const { className } = props;
 
     const classes = useStyles();
 
@@ -91,9 +87,14 @@ const AccountProfile = props => {
 
     return (
         <Card
-      {...rest}
+      //{...rest}
       className={clsx(classes.root, className)}
     >
+    <CardHeader
+          subheader="Edite su foto de perfil"
+          title="Avatar"
+        />
+        <Divider />
       <CardContent>
         <div className={classes.details}>
           <div>
