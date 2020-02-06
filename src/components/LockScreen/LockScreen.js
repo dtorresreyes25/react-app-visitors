@@ -3,21 +3,13 @@ import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 
 import {
-
     DialogContent,
-
     DialogTitle,
     withMobileDialog
 } from "@material-ui/core";
 import Dialog from "@material-ui/core/Dialog";
-import {
-
-
-    Grid
-
-
-} from "@material-ui/core";
-import {  Fingerprint } from "@material-ui/icons";
+import { Grid } from "@material-ui/core";
+import { Fingerprint } from "@material-ui/icons";
 import { makeStyles } from "@material-ui/styles";
 import { Avatar, Typography } from "@material-ui/core";
 import { deepPurple } from "@material-ui/core/colors";
@@ -62,14 +54,13 @@ const schema = {
 };
 
 const LockScreen = props => {
-    const {
-        hasError,
-        handleChange,
-        handleSubmit,
-        formState
-    } = useForm(handleUnlock, schema, null);
+    const { hasError, handleChange, handleSubmit, handleResetformValues, formState } = useForm(
+        handleUnlock,
+        schema,
+        null
+    );
 
-    const {  userSession, open } = props;
+    const { userSession, open } = props;
 
     const [openDialog, setOpenDialog] = useState(false);
 
@@ -78,13 +69,13 @@ const LockScreen = props => {
     const { email, name, avatar, token } = userSession.authSession;
 
     function handleUnlock() {
-
+        console.log("formState.values.password", formState.values.password)
         const isUnlocked = userSession.signIn(email, formState.values.password);
 
-        console.log("[isUnlocked]", isUnlocked)
+        console.log("[isUnlocked]", isUnlocked);
 
         isUnlocked.then(r => {
-            console.log("[r]", r)
+            console.log("[r]", r);
             if (r) {
                 setOpenDialog(false);
             } else {
@@ -94,8 +85,8 @@ const LockScreen = props => {
     }
 
     useEffect(() => {
-         console.log("[open (useEffect)]", open)
         if (open) {
+            handleResetformValues()
             setOpenDialog(true);
         }
     }, [open]);
@@ -129,7 +120,7 @@ const LockScreen = props => {
                                     className={classes.avatar}
                                     src={
                                         avatar
-                                            ? `https://api.ict.cu/visitors/api/v1/user/image?name=${avatar}&token=${token}`
+                                            ? `http://api.ict.cu/visitors/api/v1/user/image?name=${avatar}&token=${token}`
                                             : null
                                     }
                                 >
@@ -187,7 +178,7 @@ const LockScreen = props => {
                         style={{ marginTop: "10px" }}
                     >
                         <Button
-                            variant="text"
+                            variant="contained"
                             color="primary"
                             style={{ textTransform: "none" }}
                             disabled={formState.values.password ? false : true}

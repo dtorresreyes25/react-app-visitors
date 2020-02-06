@@ -51,7 +51,7 @@ const Profile = props => {
           component={RouterLink}
           src={
             avatar
-              ? `https://api.ict.cu/visitors/api/v1/user/image?name=${avatar}&token=${token}`
+              ? `http://api.ict.cu/visitors/api/v1/user/image?name=${avatar}&token=${token}`
               : null
           }
           to="/cuenta"

@@ -1,6 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/styles";
-import { Grid, Typography } from "@material-ui/core";
+import { Grid, Typography, Button } from "@material-ui/core";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -15,11 +16,15 @@ const useStyles = makeStyles(theme => ({
     display: "inline-block",
     maxWidth: "100%",
     width: 450
+  },
+  homeButton: {
+    marginLeft: 10,
   }
 }));
 
 const NotFound = () => {
   const classes = useStyles();
+  const history = useHistory();
 
   return (
     <div className={classes.root}>
@@ -30,9 +35,18 @@ const NotFound = () => {
               404: No está aquí la página que estás buscando.
             </Typography>
             <Typography variant="subtitle2">
-              Intentaste alguna ruta incompleta o viniste aquí por error. Cualquiera
-              que sea, intente usar la navegación de la página.
+              Intentaste alguna ruta incompleta o viniste aquí por error. Ve a 
+              <Button
+                variant="contained"
+                className={classes.homeButton}
+                size="small"
+                color="primary"
+                onClick={() => history.push("/")}
+              >
+                Inicio
+              </Button>
             </Typography>
+
             <img
               alt="Under development"
               className={classes.image}

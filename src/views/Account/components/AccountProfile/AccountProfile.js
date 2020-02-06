@@ -115,7 +115,7 @@ const AccountProfile = props => {
           </div>
           <Avatar
             className={classes.avatar}
-            src={`https://api.ict.cu/visitors/api/v1/user/image?name=${avatar}&token=${token}`}
+            src={`http://api.ict.cu/visitors/api/v1/user/image?name=${avatar}&token=${token}`}
           />
         </div>
 
@@ -150,7 +150,7 @@ const AccountProfile = props => {
         />
         <label htmlFor="icon-button-file">
        <Button
-            variant="text"
+            variant="contained"
             component="span"
             className={classes.button}
             color="primary"
@@ -162,7 +162,7 @@ const AccountProfile = props => {
         <Button
           className={classes.uploadButton}
           color="primary"
-          variant="outlined"
+          variant="contained"
           disabled={ !file ? true : false }
           onClick={onSubmit}
         >

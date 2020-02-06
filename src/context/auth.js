@@ -46,7 +46,7 @@ function useAuthProvider() {
         formData.append('file', file, safeImageName);
 
         try {
-            const res = await axios.post(`https://api.ict.cu/visitors/api/v1/user/image?token=${authSession.token}`, formData, {
+            const res = await axios.post(`http://api.ict.cu/visitors/api/v1/user/image?token=${authSession.token}`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 },
@@ -86,7 +86,7 @@ function useAuthProvider() {
 
     async function editUserInfo(data) {
 
-        const url = 'https://api.ict.cu/visitors/api/v1/user/edit'
+        const url = 'http://api.ict.cu/visitors/api/v1/user/edit'
 
         const dataToSubmit = data
 
@@ -130,7 +130,7 @@ function useAuthProvider() {
 
         let isLogged = false
 
-        const url = "https://api.ict.cu/visitors/api/v1/login";
+        const url = "http://api.ict.cu/visitors/api/v1/login";
 
         try {
 

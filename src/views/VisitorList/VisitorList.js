@@ -40,7 +40,7 @@ const mapDispatchToProps = dispatch => {
     return {
         onRequestVisits: token => dispatch(requestVisits(token)),
         onUpdateVisits: (token, visits) => dispatch(saveVisits(token, visits)),
-        onCloneVisit: (token,visit)=>dispatch(cloneVisit(token,visit)),
+        onCloneVisit: (token, visit) => dispatch(cloneVisit(token, visit)),
         onAddNewVisit: (token, visits) => dispatch(addVisits(token, visits)),
         onRemoveVisit: (token, visitId) =>
             dispatch(removeVisits(token, visitId))
@@ -60,31 +60,34 @@ const VisitorList = props => {
         onRemoveVisit,
         onCloneVisit,
         isVisitCloned,
-        isVisitRemoved,
+        isVisitRemoved
     } = props;
 
     const token = userSession.authSession.token;
 
-
     const refreshList = () => {
-        return onRequestVisits(token);
+        setTimeout(()=>{
+           onRequestVisits(token);
+        },1500)
+        
     };
 
     if (isVisitCloned) {
-        toast.success("Se ha duplicado correctamente la visita", 3);
+        toast.warn("Se ha duplicado correctamente la visita", 3);
+        console.log('isVisitCloned',isVisitCloned)
+
         refreshList();
     }
 
     if (isVisitRemoved) {
-        toast.success("Se ha eliminado correctamente la visita", 1);
+        toast.warn("Se ha eliminado correctamente la visita", 1);
         refreshList();
     }
 
     if (isVisitUpdated) {
-        toast.success("Se ha actualizado correctamente la visita", 2);
+        toast.warn("Se ha actualizado correctamente la visita", 2);
         refreshList();
     }
-
 
     useEffect(() => {
         onRequestVisits(token);
