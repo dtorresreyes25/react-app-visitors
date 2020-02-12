@@ -73,13 +73,13 @@ export default function Dashboard(props) {
         <div className={classes.appBarSpacer} />
         <Container maxWidth="xl" className={classes.container}>
           <Idle
-            timeout={600000}
+            timeout={6000}
             render={idle => (
               <LockScreen userSession={userSession} open={idle.idle} />
             )}
           />
           {children}
-          <ToastContainerHelper/>
+          {/*<ToastContainerHelper/>*/}
           <Box pt={4}>
             <Footer />
           </Box>

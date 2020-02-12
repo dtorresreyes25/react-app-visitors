@@ -135,7 +135,7 @@ const AccountDetails = props => {
         <CardActions>
           <Button
             color="primary"
-            variant="outlined"
+            variant="contained"
             onClick={handleSubmit}
             disabled = { ((formState.values.nombre && formState.values.email))? false : true }
           >

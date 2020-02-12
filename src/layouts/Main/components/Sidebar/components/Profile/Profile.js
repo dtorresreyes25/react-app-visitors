@@ -48,7 +48,7 @@ const Profile = props => {
         alt="Person"
         className={classes.avatar}
         component={RouterLink}
-        src={avatar ? `https://api.ict.cu/visitors/api/v1/user/image?name=${avatar}&token=${token}` :null}
+        src={avatar ? `http://api.ict.cu/visitors/api/v1/user/image?name=${avatar}&token=${token}` :null}
         to="/account"
       >
       {!avatar? name.substr(0,2) :null}

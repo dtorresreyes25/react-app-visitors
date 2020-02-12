@@ -32,8 +32,6 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-
-
 const formStyles = makeStyles(theme => ({
     appBar: {
         position: "relative"
@@ -87,86 +85,83 @@ const formStyles = makeStyles(theme => ({
 }));
 
 const schema = {
-        firstName: {
-            presence: {
-                allowEmpty: false,
-                message: "^Debe de registrar el nombre antes de guardar."
-            },
-            length: {
-                maximum: 128
-            }
+    firstName: {
+        presence: {
+            allowEmpty: false,
+            message: "^Debe de registrar el nombre antes de guardar."
         },
-        lastName: {
-            presence: {
-                allowEmpty: false,
-                message: "^Debe de registrar el apellido antes de guardar."
-            },
-            length: {
-                maximum: 128
-            }
-        },
-        ci: {
-            presence: {
-                allowEmpty: false,
-                message: "^Debe de registrar el CI/Pasaporte antes de guardar."
-            },
-            length: {
-                maximum: 128
-            }
-        },
-        organismo: {
-            length: {
-                maximum: 128
-            }
-        },
-        visitedPlace: {
-            presence: {
-                allowEmpty: false,
-                message:
-                    "^Debe registrar el lugar de la visita antes de guardar."
-            },
-            length: {
-                maximum: 128
-            }
-        },
-        visitDate: {
-            presence: {
-                allowEmpty: false,
-                message:
-                    "^Debe registrar la fecha de la visita antes de guardar."
-            }
-        },
-        visitReason: {
-            presence: {
-                allowEmpty: false,
-                message:
-                    "^Debe registrar el motivo de la visita antes de guardar."
-            },
-            length: {
-                maximum: 128
-            }
-        },
-        vehicleType: {
-            length: {
-                maximum: 128
-            }
-        },
-        vehicleBrand: {
-            length: {
-                maximum: 128
-            }
-        },
-        vehicleColor: {
-            length: {
-                maximum: 128
-            }
-        },
-        vehicleLicencePlate: {
-            length: {
-                maximum: 128
-            }
+        length: {
+            maximum: 128
         }
-    };
+    },
+    lastName: {
+        presence: {
+            allowEmpty: false,
+            message: "^Debe de registrar el apellido antes de guardar."
+        },
+        length: {
+            maximum: 128
+        }
+    },
+    ci: {
+        presence: {
+            allowEmpty: false,
+            message: "^Debe de registrar el CI/Pasaporte antes de guardar."
+        },
+        length: {
+            maximum: 128
+        }
+    },
+    organismo: {
+        length: {
+            maximum: 128
+        }
+    },
+    visitedPlace: {
+        presence: {
+            allowEmpty: false,
+            message: "^Debe registrar el lugar de la visita antes de guardar."
+        },
+        length: {
+            maximum: 128
+        }
+    },
+    visitDate: {
+        presence: {
+            allowEmpty: false,
+            message: "^Debe registrar la fecha de la visita antes de guardar."
+        }
+    },
+    visitReason: {
+        presence: {
+            allowEmpty: false,
+            message: "^Debe registrar el motivo de la visita antes de guardar."
+        },
+        length: {
+            maximum: 128
+        }
+    },
+    vehicleType: {
+        length: {
+            maximum: 128
+        }
+    },
+    vehicleBrand: {
+        length: {
+            maximum: 128
+        }
+    },
+    vehicleColor: {
+        length: {
+            maximum: 128
+        }
+    },
+    vehicleLicencePlate: {
+        length: {
+            maximum: 128
+        }
+    }
+};
 
 const AddForm = ({
     userSession,
@@ -177,13 +172,14 @@ const AddForm = ({
     const classes = formStyles();
 
     const [activeStep, setActiveStep] = React.useState(0);
-    const [isFormSubmited, setIsFormSubmited] = React.useState(false);
 
-    const { hasError, handleChange, handleSubmit, formState } = useForm(
-        handleFormStepCompletation,
-        schema,
-        {}
-    );
+    const {
+        hasError,
+        handleChange,
+        handleSubmit,
+        handleResetformValues,
+        formState
+    } = useForm(handleFormStepCompletation, schema, {});
 
     const steps = ["Datos personales", "Vehículo", "Resumen"];
 
@@ -192,8 +188,6 @@ const AddForm = ({
             case 0:
                 return (
                     <PersonalForm
-                        
-
                         formState={formState}
                         hasError={hasError}
                         handleChange={handleChange}
@@ -220,62 +214,50 @@ const AddForm = ({
         }
     };
 
-    function handleFormStepCompletation(){
-        const dataToSubmit = {
-            nombre: formState.values.firstName,
-            apellidos: formState.values.lastName,
-            carnet: formState.values.ci,
-            organismo: formState.values.organismo,
-            visitado: formState.values.visitedPlace,
-            fecha: formState.values.visitDate,
-            motivo: formState.values.visitReason,
-            vehiculo_tipo: formState.values.vehicleType || "",
-            vehiculo_marca: formState.values.vehicleBrand || "",
-            vehiculo_color: formState.values.vehicleColor || "",
-            vehiculo_chapa: formState.values.vehicleLicencePlate || ""
-        };
-
-        if (activeStep === 2) {
-           
-            return onAddNewVisit(userSession.authSession.token, dataToSubmit);
-        }
-    };
-
-    function handleNext(){
-        return handleSubmit();
-    };
-
-    function handleBack(){
-        return setActiveStep(activeStep - 1);
-    };
-
-    
-
-    React.useEffect(() => {
+    function handleFormStepCompletation() {
+        console.log("handleFormStepCompletation");
         if (activeStep < 2) {
             if (
                 Object.keys(formState.errors).length > 0 ||
-                Object.keys(formState.values).length === 0
+                Object.keys(formState.values).length === 1
             ) {
                 setActiveStep(activeStep);
             } else {
                 if (activeStep <= steps.length) setActiveStep(activeStep + 1);
             }
         }
-    }, [formState.errors,activeStep,formState.values,formState.errors,steps.length]);
-
-    React.useEffect(() => {
-        if (isVisitAdded) {
-           setIsFormSubmited(true)
+        if (activeStep === 2) {
+            const dataToSubmit = {
+                nombre: formState.values.firstName,
+                apellidos: formState.values.lastName,
+                carnet: formState.values.ci,
+                organismo: formState.values.organismo,
+                visitado: formState.values.visitedPlace,
+                fecha: formState.values.visitDate,
+                motivo: formState.values.visitReason,
+                vehiculo_tipo: formState.values.vehicleType || "",
+                vehiculo_marca: formState.values.vehicleBrand || "",
+                vehiculo_color: formState.values.vehicleColor || "",
+                vehiculo_chapa: formState.values.vehicleLicencePlate || ""
+            };
+            onAddNewVisit(userSession.authSession.token, dataToSubmit);
         }
-    }, [isVisitAdded]);
+    }
 
-    
+    function handleBack() {
+        return setActiveStep(activeStep - 1);
+    }
+
+    console.log("ActiveStep", activeStep);
+
+    function handleNewEntryForm() {
+        handleResetformValues();
+        setActiveStep(0);
+    }
 
     return (
         <React.Fragment>
             <CssBaseline />
-
             <main className={classes.layout}>
                 <Paper className={classes.paper}>
                     <Typography component="h1" variant="h2" align="center">
@@ -292,7 +274,7 @@ const AddForm = ({
                         ))}
                     </Stepper>
                     <React.Fragment>
-                        {isFormSubmited ? (
+                        {isVisitAdded && activeStep === 2 ? (
                             <React.Fragment>
                                 <Typography variant="h5" gutterBottom>
                                     Se han guardado los datos correctamente.
@@ -301,12 +283,14 @@ const AddForm = ({
                                     {
                                         "Si desea registrar un nuevo visitante haga click "
                                     }
-                                    <Link
-                                        href="/visitas/añadir"
-                                        className={classes.link}
+                                    <Button
+                                        variant="contained"
+                                        size="small"
+                                        color="primary"
+                                        onClick={handleNewEntryForm}
                                     >
                                         Aquí
-                                    </Link>
+                                    </Button>
                                 </Typography>
                             </React.Fragment>
                         ) : (
@@ -343,7 +327,13 @@ const AddForm = ({
                                         <Button
                                             variant="contained"
                                             color="primary"
-                                            onClick={handleNext}
+                                            onClick={handleSubmit}
+                                            disabled={
+                                                Object.keys(formState.values)
+                                                    .length === 1
+                                                    ? true
+                                                    : false
+                                            }
                                             className={classes.button}
                                         >
                                             {activeStep === steps.length - 1

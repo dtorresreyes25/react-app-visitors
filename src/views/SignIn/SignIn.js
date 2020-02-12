@@ -1,5 +1,5 @@
-import React, { useState} from "react";
-import {  withRouter } from "react-router-dom";
+import React, { useState } from "react";
+import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 
 import { useAuth } from "../../context/auth";
@@ -9,12 +9,7 @@ import useForm from "../../helpers/useForm";
 import { toast } from "react-toastify";
 
 import { makeStyles } from "@material-ui/styles";
-import {
-  Grid,
-  Button,
-  TextField,
-  Typography
-} from "@material-ui/core";
+import { Grid, Button, TextField, Typography } from "@material-ui/core";
 import { Fingerprint } from "@material-ui/icons";
 import MailOutlineTwoToneIcon from "@material-ui/icons/MailOutlineTwoTone";
 import InputAdornment from "@material-ui/core/InputAdornment";
@@ -275,7 +270,6 @@ const SignIn = props => {
           </div>
         </Grid>
       </Grid>
-     
     </div>
   );
 };

@@ -155,7 +155,7 @@ const AccountPassword = props => {
         <CardActions>
           <Button
             color="primary"
-            variant="outlined"
+            variant="contained"
             onClick={handleSubmit}
             disabled = { ((formState.values.contraseña && formState.values.confirmación))? false : true }
           >

@@ -7,7 +7,7 @@ const requestVisitsSuccess = (data)=>({type: actionTypes.REQUEST_VISITS_SUCCESS,
 
 export const requestVisits = token => dispatch => {
 	dispatch(requestVisitsPending());
-	fetch("https://api.ict.cu/visitors/api/v1/visitors", {
+	fetch("http://api.ict.cu/visitors/api/v1/visitors", {
 		headers: {
 			"x-access-token": token
 		}
@@ -28,7 +28,7 @@ const saveVisitsEditedSuccess = (data)=>({type: actionTypes.SAVE_VISITS_EDITED_S
 
 export const saveVisits = (token,visits) => dispatch=>{
 	dispatch(saveVisitsEditedPending())
-	fetch("https://api.ict.cu/visitors/api/v1/visitors", {
+	fetch("http://api.ict.cu/visitors/api/v1/visitors", {
 		method: 'PUT',
 		headers: {
 			"x-access-token": token,
@@ -50,7 +50,7 @@ const addVisitSuccess = (data)=>({type: actionTypes.ADD_VISIT_SUCCESS,payload: d
 
 
 const postVisitToApi = (token, visits) =>{
-		return fetch("https://api.ict.cu/visitors/api/v1/visitors", {
+		return fetch("http://api.ict.cu/visitors/api/v1/visitors", {
 		method: 'POST',
 		headers: {
 			"x-access-token": token,
@@ -92,7 +92,7 @@ const removeVisitSuccess = (data)=>({type: actionTypes.REMOVE_VISIT_SUCCESS, pay
 
 export const removeVisits = (token,visitId) => dispatch =>{
 	dispatch(removeVisitPending())
-	fetch(`https://api.ict.cu/visitors/api/v1/visitors?id=${visitId}`, {
+	fetch(`http://api.ict.cu/visitors/api/v1/visitors?id=${visitId}`, {
 		method: 'DELETE',
 		headers: {
 			"x-access-token": token,
