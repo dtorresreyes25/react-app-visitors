@@ -2,18 +2,13 @@ import React from "react";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
-import { ToastContainerHelper } from '../../helpers/'
-
-
-
+import { ToastContainerHelper } from "../../helpers/";
 import { Sidebar, Topbar, Footer } from "./components";
 import { makeStyles, useTheme } from "@material-ui/styles";
 import { useMediaQuery } from "@material-ui/core";
 
 import Idle from "react-idle-enhanced";
 import { LockScreen } from "../../components";
-
-
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -52,7 +47,6 @@ export default function Dashboard(props) {
     setOpen(false);
   };
 
-
   const { children, userSession } = props;
 
   return (
@@ -73,13 +67,12 @@ export default function Dashboard(props) {
         <div className={classes.appBarSpacer} />
         <Container maxWidth="xl" className={classes.container}>
           <Idle
-            timeout={6000}
+            timeout={600000}
             render={idle => (
               <LockScreen userSession={userSession} open={idle.idle} />
             )}
           />
           {children}
-          {/*<ToastContainerHelper/>*/}
           <Box pt={4}>
             <Footer />
           </Box>
