@@ -1,2 +1,2 @@
 REACT-APP-VISITORS
-This project is for recording visits to our factory.
+This project is for registering visits to our factory.
