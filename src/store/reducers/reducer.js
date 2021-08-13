@@ -1,6 +1,7 @@
 import  * as actionTypes  from '../actions/'
 import {updateObject} from '../../helpers/'
 
+// My initial state
 const initialState={
 	isPending: false,
 	visits: [],
